@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		rbody.velocity = this.transform.right * Time.deltaTime * speed;
+		rbody.velocity = this.transform.up * Time.deltaTime * speed;
 
 	}
 }
