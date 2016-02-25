@@ -13,10 +13,13 @@ public class Bullet : MonoBehaviour {
 
 		rbody = gameObject.GetComponent<Rigidbody2D> ();
 	}
-	
+
 	// Update is called once per frame
+	void Update() {
+
+	}
+
 	void FixedUpdate () {
 		rbody.velocity = this.transform.up * Time.deltaTime * speed;
-
 	}
 }
