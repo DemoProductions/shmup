@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public int speed = 100;
+	public int speed;
 	public float xvelocity;
 	public float yvelocity;
 	public Vector2 movement;
@@ -16,6 +16,8 @@ public class Player : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		speed = 100;
+
 		xvelocity = 0;
 		yvelocity = 0;
 
