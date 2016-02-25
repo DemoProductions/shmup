@@ -22,4 +22,10 @@ public class Bullet : MonoBehaviour {
 	void FixedUpdate () {
 		rbody.velocity = this.transform.up * Time.deltaTime * speed;
 	}
+
+	void OnTriggerEnter2D(Collider2D other) {
+		if (other.tag != "bullet" && other.tag != "bulletWall" && other.tag != "playerWall") {
+			Destroy (other.gameObject);
+		}
+	}
 }
