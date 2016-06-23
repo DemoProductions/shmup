@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
 		xvelocity = Input.GetAxis ("Horizontal");
 		yvelocity = Input.GetAxis ("Vertical");
 
-		bullettime += Time.deltaTime;
+		if (bullettime < BULLET_DELAY) bullettime += Time.deltaTime;
 
 		if (Input.GetAxis ("Fire1") > 0 && bullettime >= BULLET_DELAY)
         {
