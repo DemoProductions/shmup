@@ -14,7 +14,7 @@ public class BoundingsTimeout2D : MonoBehaviour
 
 	void LateUpdate ()
     {
-		if (time >= timeout)
+		if (time > timeout)
 			Destroy (this.gameObject);
 
         // TODO: same checks in Boundings2D.cs. Can modularize
