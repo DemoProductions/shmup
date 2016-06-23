@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+{
 
 	public int speed;
 	public float xvelocity;
@@ -16,7 +17,8 @@ public class Player : MonoBehaviour {
 	private Rigidbody2D rbody;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 		speed = 100;
 
 		xvelocity = 0;
@@ -28,20 +30,23 @@ public class Player : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		xvelocity = Input.GetAxis ("Horizontal");
 		yvelocity = Input.GetAxis ("Vertical");
 
 		bullettime += Time.deltaTime;
 
-		if (Input.GetAxis ("Fire1") > 0 && bullettime >= BULLET_DELAY) {
+		if (Input.GetAxis ("Fire1") > 0 && bullettime >= BULLET_DELAY)
+        {
 			//I would argue we need a better way to store the bullet prefab, allowing upgrades and such to change this.
 			Instantiate (this.bullet, this.transform.position + new Vector3(0.5f, 0, 0), this.transform.rotation);
 			bullettime = 0;
 		}
 	}
 
-	void FixedUpdate() {
+	void FixedUpdate()
+    {
 		rbody.velocity = new Vector2 (xvelocity, yvelocity) * Time.deltaTime * speed;
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class LinearEnemy : MonoBehaviour {
+public class LinearEnemy : MonoBehaviour
+{
 
 	public int speed;
 	public float xvelocity;
@@ -12,25 +12,28 @@ public class LinearEnemy : MonoBehaviour {
 	public float bullettime;
 	public const float BULLET_DELAY = 1f;
 
-	public int hp = 100;
+    public int hp;
 	
 	private Rigidbody2D rbody;
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 		speed = 100;
 		
 		xvelocity = -1;
 		yvelocity = 0;
 		
 		bullettime = 0;
-		
-		rbody = gameObject.GetComponent<Rigidbody2D> ();
+
+        hp = 100;
+
+        rbody = gameObject.GetComponent<Rigidbody2D> ();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+	void Update ()
+    {
 		bullettime += Time.deltaTime;
 		
 		/*if (Input.GetAxis ("Fire1") > 0 && bullettime >= BULLET_DELAY) {
@@ -39,13 +42,15 @@ public class LinearEnemy : MonoBehaviour {
 			bullettime = 0;
 		}*/
 
-		if (bullettime >= BULLET_DELAY) {
+		if (bullettime >= BULLET_DELAY)
+        {
 			Instantiate (this.bullet, this.transform.position - new Vector3(0.5f, 0, 0), this.transform.rotation);
 			bullettime = 0;
 		}
 	}
 
-	void FixedUpdate() {
+	void FixedUpdate()
+    {
 		rbody.velocity = new Vector2 (xvelocity, yvelocity) * Time.deltaTime * speed;
 	}
 }

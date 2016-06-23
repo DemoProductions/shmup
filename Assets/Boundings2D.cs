@@ -5,10 +5,13 @@
 
 using UnityEngine;
 
-public class Boundings2D : MonoBehaviour {
+public class Boundings2D : MonoBehaviour
+{
 
-	void LateUpdate () {
-		var left = Camera.main.ViewportToWorldPoint(Vector3.zero).x;
+	void LateUpdate ()
+    {
+        // TODO: same checks in BoundingsTimeout2D.cs. Can modularize
+        var left = Camera.main.ViewportToWorldPoint(Vector3.zero).x;
 		var right = Camera.main.ViewportToWorldPoint(Vector3.one).x;
 		var top = Camera.main.ViewportToWorldPoint(Vector3.zero).y;
 		var bottom = Camera.main.ViewportToWorldPoint(Vector3.one).y;
