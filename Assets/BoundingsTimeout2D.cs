@@ -1,14 +1,23 @@
 ﻿using UnityEngine;
 
-public class BoundingsTimeout2D : MonoBehaviour {
+public class BoundingsTimeout2D : MonoBehaviour
+{
 
-	public int timeout = 3;
-	public float time = 0f;
+    public int timeout;
+    public float time;
 
-	void LateUpdate () {
+    void Start()
+    {
+        timeout = 3;
+        time = 0f;
+    }
+
+	void LateUpdate ()
+    {
 		if (time >= timeout)
 			Destroy (this.gameObject);
 
+        // TODO: same checks in Boundings2D.cs. Can modularize
 		var left = Camera.main.ViewportToWorldPoint(Vector3.zero).x;
 		var right = Camera.main.ViewportToWorldPoint(Vector3.one).x;
 		var top = Camera.main.ViewportToWorldPoint(Vector3.zero).y;
@@ -34,7 +43,7 @@ public class BoundingsTimeout2D : MonoBehaviour {
 			yout = true;
 		}
 
-//		transform.position = new Vector3(x, y, transform.position.z);
+        // transform.position = new Vector3(x, y, transform.position.z);
 		if (xout || yout)
 			time += Time.deltaTime;
 		else
