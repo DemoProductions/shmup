@@ -8,7 +8,6 @@ public class BoundingsTimeout2D : MonoBehaviour
 
     void Start()
     {
-        timeout = 3;
         time = 0f;
     }
 
