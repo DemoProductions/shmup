@@ -15,7 +15,6 @@ public class BoundingsTimeout2D : MonoBehaviour
 		if (time > timeout)
 			Destroy (this.gameObject);
 
-        // TODO: same checks in Boundings2D.cs. Can modularize
 		var left = Camera.main.ViewportToWorldPoint(Vector3.zero).x;
 		var right = Camera.main.ViewportToWorldPoint(Vector3.one).x;
 		var top = Camera.main.ViewportToWorldPoint(Vector3.zero).y;
@@ -23,9 +22,6 @@ public class BoundingsTimeout2D : MonoBehaviour
 
 		bool xout = false;
 		bool yout = false;
-
-		float x = transform.position.x;
-		float y = transform.position.y;
 
 		// check x
 		if (transform.position.x <= left - GetComponentInChildren<Renderer>().bounds.size.x) {
