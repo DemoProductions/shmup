@@ -3,12 +3,12 @@
 public class Health : MonoBehaviour
 {
 
-    public int hp;
+    public int hp = 100;
 
     void Start()
     {
-        hp = 100;
     }
+
     public void Damage(int damage)
     {
         hp -= damage;

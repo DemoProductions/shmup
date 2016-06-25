@@ -3,8 +3,8 @@
 public class LinearEnemy : MonoBehaviour
 {
 
-	public int speed;
-	public float xvelocity;
+	public int speed = 100;
+	public float xvelocity = -1;
 	public float yvelocity;
 	public Vector2 movement;
 
@@ -12,22 +12,14 @@ public class LinearEnemy : MonoBehaviour
 	public float bullettime;
 	public const float BULLET_DELAY = 1f;
 
-    public int hp;
+    Health health;
 	
-	private Rigidbody2D rbody;
+	Rigidbody2D rbody;
 
 	// Use this for initialization
 	void Start ()
     {
-		speed = 100;
-		
-		xvelocity = -1;
-		yvelocity = 0;
-		
-		bullettime = 0;
-
-        hp = 100;
-
+        health = gameObject.GetComponent<Health> ();
         rbody = gameObject.GetComponent<Rigidbody2D> ();
 	}
 	
