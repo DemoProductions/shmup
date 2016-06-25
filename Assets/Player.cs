@@ -3,29 +3,22 @@
 public class Player : MonoBehaviour
 {
 
-	public int speed;
+	public int speed = 100;
 	public float xvelocity;
 	public float yvelocity;
-	public Vector2 movement;
 
 	public GameObject bullet;
 	public float bullettime;
 	public const float BULLET_DELAY = 0.1f;
 
-	public int hp = 100;
+    Health health;
 
-	private Rigidbody2D rbody;
+	Rigidbody2D rbody;
 
 	// Use this for initialization
 	void Start ()
     {
-		speed = 100;
-
-		xvelocity = 0;
-		yvelocity = 0;
-
-		bullettime = 0;
-
+        health = gameObject.GetComponent<Health> ();
 		rbody = gameObject.GetComponent<Rigidbody2D> ();
 	}
 	

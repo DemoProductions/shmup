@@ -3,15 +3,13 @@
 public class Bullet : MonoBehaviour
 {
 
-    public int speed;
+    public int speed = 500;
 
-    private Rigidbody2D rbody;
+    Rigidbody2D rbody;
 
     // Use this for initialization
     void Start()
     {
-        speed = 500;
-
         rbody = gameObject.GetComponent<Rigidbody2D>();
     }
 
@@ -28,6 +26,13 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        //other.gameObject.GetComponent<Health>().Damage(blah);
+        Health health = other.gameObject.GetComponent<Health>();
+
+        // check whether the colliding object can be damaged
+        if (health)
+        {
+            health.Damage(10); // TODO: damage will vary based on player and enemy?
+            Destroy(this.gameObject);
+        }   
     }
 }
