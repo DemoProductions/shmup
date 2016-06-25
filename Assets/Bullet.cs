@@ -4,6 +4,7 @@ public class Bullet : MonoBehaviour
 {
 
     public int speed = 500;
+	public int damage = 10;
 
     Rigidbody2D rbody;
 
@@ -31,7 +32,7 @@ public class Bullet : MonoBehaviour
         // check whether the colliding object can be damaged
         if (health)
         {
-            health.Damage(10); // TODO: damage will vary based on player and enemy?
+            health.Damage(damage);
             Destroy(this.gameObject);
         }   
     }
