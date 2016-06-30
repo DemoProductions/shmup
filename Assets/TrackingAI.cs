@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 public class TrackingAI : MonoBehaviour {
@@ -10,7 +10,7 @@ public class TrackingAI : MonoBehaviour {
 		both
 	}
 
-	static GameObject[] targets;
+	static List<GameObject> targets;
 
 	public float degreesPerSecond = 180;
 	public float trackingRadius = 2;
@@ -24,15 +24,17 @@ public class TrackingAI : MonoBehaviour {
 	void Start () {
 		// set once and is static. All enemies exist on spawn so we don't want to call this slow function repeatedly
 		if (targets == null) {
-			targets = Object.FindObjectsOfType<Team> ().Select(team => team.gameObject).ToArray();
+			targets = Object.FindObjectsOfType<Team> ().Select (team => team.gameObject).ToList();
 		}
 		UpdateTarget ();
 	}
 
 	void UpdateTarget() {
+		targets.RemoveAll (target => target == null);
+
 		// I love me some lambdas
 		// Get objects within range
-		GameObject[] trackableTargets = targets.Where ((target) => (target.transform.position - this.transform.position).sqrMagnitude < trackingRadius * trackingRadius).ToArray();
+		List<GameObject> trackableTargets = targets.Where ((target) => (target.transform.position - this.transform.position).sqrMagnitude < trackingRadius * trackingRadius).ToList();
 
 		// Filter targets by target type, ignore if no team was set
 		if (this.team) {
@@ -41,13 +43,13 @@ public class TrackingAI : MonoBehaviour {
 				trackableTargets = trackableTargets.Where (target => {
 					Team team = target.GetComponent<Team> ();
 					return team && team.IsFriendly (this.team);
-				}).ToArray();
+				}).ToList();
 				break;
 			case (int)targetTypes.enemy:
 				trackableTargets = trackableTargets.Where (target => {
 					Team team = target.GetComponent<Team> ();
 					return team && team.IsEnemy (this.team);
-				}).ToArray();
+				}).ToList();
 				break;
 			case (int)targetTypes.both:
 				// do nothing, already have both
@@ -59,10 +61,10 @@ public class TrackingAI : MonoBehaviour {
 		}
 
 		// Sort and get the closeset target
-		if (trackableTargets.Length == 0) {
+		if (trackableTargets.Count() == 0) {
 			target = null;
 		} else {
-			System.Array.Sort (trackableTargets, (target1, target2) => (int)(target1.transform.position - this.transform.position).sqrMagnitude - (int)(target2.transform.position - this.transform.position).sqrMagnitude);
+			trackableTargets.Sort((target1, target2) => (int)(target1.transform.position - this.transform.position).sqrMagnitude - (int)(target2.transform.position - this.transform.position).sqrMagnitude);
 			target = trackableTargets [0];
 		}
 	}
