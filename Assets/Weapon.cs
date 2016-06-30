@@ -18,7 +18,7 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-        Bullet bullet = this.bullets[bulletType].GetComponent<Bullet> ();
+		Projectile bullet = this.bullets[bulletType].GetComponent<Projectile> ();
 
 		if (this.refireTime < this.refireRate) this.refireTime += Time.deltaTime;
 
@@ -30,7 +30,7 @@ public class Weapon : MonoBehaviour
 
     public void Shoot()
     {
-        Bullet bullet = this.bullets[bulletType].GetComponent<Bullet>();
+		Projectile bullet = this.bullets[bulletType].GetComponent<Projectile>();
 
         //I would argue we need a better way to store the bullet prefab, allowing upgrades and such to change this.
         Instantiate(this.bullets[bulletType], this.transform.position + new Vector3(xvelocity, yvelocity, 0), this.transform.rotation);
