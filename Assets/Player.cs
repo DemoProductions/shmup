@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
         xvelocity = Input.GetAxis ("Horizontal");
         yvelocity = Input.GetAxis ("Vertical");
 
-        if (Input.GetAxis ("Fire1") > 0 && weapon.canShoot)
+        if (Input.GetAxis ("Fire1") > 0)
         {
             weapon.Shoot();
         }
