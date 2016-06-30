@@ -22,10 +22,13 @@ public class Weapon : MonoBehaviour
 
 		if (this.refireTime < this.refireRate) this.refireTime += Time.deltaTime;
 
-		if (this.refireTime >= this.refireRate)
-            canShoot = true;
-        else
-            canShoot = false;
+		if (this.refireTime >= this.refireRate) {
+			canShoot = true;
+		}
+		else
+		{
+			canShoot = false;
+		}
     }
 
     public void Shoot()

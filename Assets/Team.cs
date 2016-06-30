@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Team : MonoBehaviour {
+public class Team : MonoBehaviour
+{
 
-	public enum teams {
+	public enum teams
+	{
 		friendly,	// player team
 		enemy,		// non-player team
 		neutral,	// neither team (either can attack)
@@ -12,22 +14,26 @@ public class Team : MonoBehaviour {
 
 	public teams team = teams.none;
 
-	public int GetTeam() {
+	public int GetTeam()
+	{
 		return (int)this.team;
 	}
 
-	public void SetTeam(teams team) {
+	public void SetTeam(teams team)
+	{
 		this.team = team;
 	}
 
-	public bool IsFriendly(Team otherTeam) {
+	public bool IsFriendly(Team otherTeam)
+	{
 		if (team == otherTeam.team)
 			return true;
 		else
 			return false;
 	}
 
-	public bool IsEnemy(Team otherTeam) {
+	public bool IsEnemy(Team otherTeam)
+	{
 		if (team != otherTeam.team)
 			return true;
 		else

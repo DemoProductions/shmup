@@ -20,16 +20,22 @@ public class Boundings2D : MonoBehaviour
 		float y = transform.position.y;
 
 		// check x
-		if (transform.position.x <= left + GetComponent<Renderer>().bounds.extents.x) {
+		if (transform.position.x <= left + GetComponent<Renderer>().bounds.extents.x)
+		{
 			x = left + GetComponent<Renderer>().bounds.extents.x;
-		} else if (transform.position.x >= right - GetComponent<Renderer>().bounds.extents.x) {
+		}
+		else if (transform.position.x >= right - GetComponent<Renderer>().bounds.extents.x)
+		{
 			x = right - GetComponent<Renderer>().bounds.extents.x;
 		}
 
 		// check y
-		if (transform.position.y <= top + GetComponent<Renderer>().bounds.extents.y) {
+		if (transform.position.y <= top + GetComponent<Renderer>().bounds.extents.y)
+		{
 			y = top + GetComponent<Renderer>().bounds.extents.y;
-		} else if (transform.position.y >= bottom - GetComponent<Renderer>().bounds.extents.y) {
+		}
+		else if (transform.position.y >= bottom - GetComponent<Renderer>().bounds.extents.y)
+		{
 			y = bottom - GetComponent<Renderer>().bounds.extents.y;
 		}
 
