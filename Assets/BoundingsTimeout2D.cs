@@ -24,16 +24,16 @@ public class BoundingsTimeout2D : MonoBehaviour
 		bool yout = false;
 
 		// check x
-		if (transform.position.x <= left - GetComponentInChildren<Renderer>().bounds.size.x) {
+		if (transform.position.x <= left - GetComponentInChildren<Renderer>().bounds.extents.x) {
 			xout = true;
-		} else if (transform.position.x >= right + GetComponentInChildren<Renderer>().bounds.size.x) {
+		} else if (transform.position.x >= right + GetComponentInChildren<Renderer>().bounds.extents.x) {
 			xout = true;
 		}
 
 		// check y
-		if (transform.position.y <= top - GetComponentInChildren<Renderer>().bounds.size.y) {
+		if (transform.position.y <= top - GetComponentInChildren<Renderer>().bounds.extents.y) {
 			yout = true;
-		} else if (transform.position.y >= bottom + GetComponentInChildren<Renderer>().bounds.size.y) {
+		} else if (transform.position.y >= bottom + GetComponentInChildren<Renderer>().bounds.extents.y) {
 			yout = true;
 		}
 
