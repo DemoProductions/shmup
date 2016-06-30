@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class ColliderManager : MonoBehaviour {
+public class ColliderManager : MonoBehaviour
+{
 	
 	// Set these in the editor
 	public PolygonCollider2D[] idle;
@@ -92,7 +93,8 @@ public class ColliderManager : MonoBehaviour {
 		localCollider.pathCount = 0;
 	}
 	
-	public void clear() {
+	public void clear()
+	{
 		localCollider.pathCount = 0;
 	}
 }

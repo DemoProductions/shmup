@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
 
     public int speed = 500;
