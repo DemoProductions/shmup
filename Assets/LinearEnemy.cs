@@ -22,16 +22,7 @@ public class LinearEnemy : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        /*if (Input.GetAxis ("Fire1") > 0 && bullettime >= BULLET_DELAY) {
-            //I would argue we need a better way to store the bullet prefab, allowing upgrades and such to change this.
-            Instantiate (this.bullet, this.transform.position, this.transform.rotation);
-            bullettime = 0;
-        }*/
-
-        if (weapon.canShoot)
-        {
-            weapon.Shoot();
-        }
+        weapon.Shoot();
     }
 
     void FixedUpdate()

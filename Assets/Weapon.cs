@@ -21,22 +21,19 @@ public class Weapon : MonoBehaviour
 		Projectile bullet = this.bullets[bulletType].GetComponent<Projectile> ();
 
 		if (this.refireTime < this.refireRate) this.refireTime += Time.deltaTime;
-
-		if (this.refireTime >= this.refireRate) {
-			canShoot = true;
-		}
-		else
-		{
-			canShoot = false;
-		}
     }
 
-    public void Shoot()
+    public bool Shoot()
     {
 		Projectile bullet = this.bullets[bulletType].GetComponent<Projectile>();
 
-        //I would argue we need a better way to store the bullet prefab, allowing upgrades and such to change this.
-        Instantiate(this.bullets[bulletType], this.transform.position + new Vector3(xvelocity, yvelocity, 0), this.transform.rotation);
-		this.refireTime = 0;
+        if (this.refireTime >= this.refireRate)
+        {
+            Instantiate(this.bullets[bulletType], this.transform.position + new Vector3(xvelocity, yvelocity, 0), this.transform.rotation);
+            this.refireTime = 0;
+            return true;
+        }
+
+        return false;
     }
 }
