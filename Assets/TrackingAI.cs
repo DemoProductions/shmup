@@ -4,33 +4,66 @@ using System.Linq;
 
 public class TrackingAI : MonoBehaviour {
 
-	static LinearEnemy[] enemies;
+	public enum targetTypes {
+		friendly,
+		enemy,
+		both
+	}
+
+	static GameObject[] targets;
 
 	public float degreesPerSecond = 180;
 	public float trackingRadius = 2;
-//	public Team team;
+	public targetTypes targetType = targetTypes.enemy;
 
-	LinearEnemy target = null;
+	GameObject target = null;
+
+	Team team = null;
 
 	// Use this for initialization
 	void Start () {
-		// replace with something like this in future and filter for other team
-		//		Object.FindObjectOfType<Team>();
 		// set once and is static. All enemies exist on spawn so we don't want to call this slow function repeatedly
-		if (enemies == null)
-			enemies = Object.FindObjectsOfType<LinearEnemy>();
-		Debug.Log (enemies);
+		if (targets == null) {
+			targets = Object.FindObjectsOfType<Team> ().Select(team => team.gameObject).ToArray();
+		}
 		UpdateTarget ();
 	}
 
 	void UpdateTarget() {
-		// I love me some lambdas. Get enemies withing tracking range then sort for the closest
-		LinearEnemy[] trackableEnemies = enemies.Where ((enemy) => (enemy.transform.position - this.transform.position).sqrMagnitude < trackingRadius * trackingRadius).ToArray();
-		if (trackableEnemies.Length == 0) {
+		// I love me some lambdas
+		// Get objects within range
+		GameObject[] trackableTargets = targets.Where ((target) => (target.transform.position - this.transform.position).sqrMagnitude < trackingRadius * trackingRadius).ToArray();
+
+		// Filter targets by target type, ignore if no team was set
+		if (this.team) {
+			switch ((int)targetType) {
+			case (int)targetTypes.friendly:
+				trackableTargets = trackableTargets.Where (target => {
+					Team team = target.GetComponent<Team> ();
+					return team && team.IsFriendly (this.team);
+				}).ToArray();
+				break;
+			case (int)targetTypes.enemy:
+				trackableTargets = trackableTargets.Where (target => {
+					Team team = target.GetComponent<Team> ();
+					return team && team.IsEnemy (this.team);
+				}).ToArray();
+				break;
+			case (int)targetTypes.both:
+				// do nothing, already have both
+				break;
+			default:
+				// do nothing, default to both, shouldn't be possible due to editor setting targetType
+				break;
+			}
+		}
+
+		// Sort and get the closeset target
+		if (trackableTargets.Length == 0) {
 			target = null;
 		} else {
-			System.Array.Sort (trackableEnemies, (enemy1, enemy2) => (int)(enemy1.transform.position - this.transform.position).sqrMagnitude - (int)(enemy2.transform.position - this.transform.position).sqrMagnitude);
-			target = trackableEnemies [0];
+			System.Array.Sort (trackableTargets, (target1, target2) => (int)(target1.transform.position - this.transform.position).sqrMagnitude - (int)(target2.transform.position - this.transform.position).sqrMagnitude);
+			target = trackableTargets [0];
 		}
 	}
 
