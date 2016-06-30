@@ -5,8 +5,8 @@ public class Weapon : MonoBehaviour
 
     public GameObject[] bullets;
     public int bulletType = 0;
-    public float bullettime;
-    public float bullet_delay = 0.1f;
+    public float refireTime;
+    public float refireRate = 0.1f;
     public bool canShoot;
     public float xvelocity;
     public float yvelocity;
@@ -20,9 +20,9 @@ public class Weapon : MonoBehaviour
     {
         Bullet bullet = this.bullets[bulletType].GetComponent<Bullet> ();
 
-        if (this.bullettime < this.bullet_delay) this.bullettime += Time.deltaTime;
+		if (this.refireTime < this.refireRate) this.refireTime += Time.deltaTime;
 
-        if (this.bullettime >= this.bullet_delay)
+		if (this.refireTime >= this.refireRate)
             canShoot = true;
         else
             canShoot = false;
@@ -34,6 +34,6 @@ public class Weapon : MonoBehaviour
 
         //I would argue we need a better way to store the bullet prefab, allowing upgrades and such to change this.
         Instantiate(this.bullets[bulletType], this.transform.position + new Vector3(xvelocity, yvelocity, 0), this.transform.rotation);
-        this.bullettime = 0;
+		this.refireTime = 0;
     }
 }
