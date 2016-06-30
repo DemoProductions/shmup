@@ -12,16 +12,23 @@ public class Team : MonoBehaviour {
 
 	public teams team = teams.none;
 
-	int GetTeam() {
+	public int GetTeam() {
 		return (int)this.team;
 	}
 
-	void SetTeam(teams team) {
+	public void SetTeam(teams team) {
 		this.team = team;
 	}
 
-	bool IsFriendly(Team otherTeam) {
+	public bool IsFriendly(Team otherTeam) {
 		if (team == otherTeam.team)
+			return true;
+		else
+			return false;
+	}
+
+	public bool IsEnemy(Team otherTeam) {
+		if (team != otherTeam.team)
 			return true;
 		else
 			return false;
@@ -31,7 +38,7 @@ public class Team : MonoBehaviour {
 	// if (GetComponent<Team>()) will be false for case of null (no script) AND team == none
 	public static implicit operator bool(Team team)
 	{
-		if (team.team == teams.none)
+		if (team == null || team.team == teams.none)
 			return false;
 		else
 			return true;
