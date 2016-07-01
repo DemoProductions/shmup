@@ -7,7 +7,6 @@ public class Weapon : MonoBehaviour
     public int bulletType = 0;
     public float refireTime;
     public float refireRate = 0.1f;
-    public bool canShoot;
     public float xvelocity;
     public float yvelocity;
 
