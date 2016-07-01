@@ -15,7 +15,7 @@ public class LinearEnemy : MonoBehaviour
     void Start ()
     {
         health = gameObject.GetComponent<Health> ();
-        weapon = gameObject.GetComponent<Weapon> ();
+        weapon = gameObject.GetComponentInChildren<Weapon> ();
         rbody = gameObject.GetComponent<Rigidbody2D> ();
     }
     
