@@ -84,12 +84,14 @@ public class EnemyMovementEditor : Editor
 		case (int)EnemyMovement.modifiers.sin:
 			script.xModifierVelocity = EditorGUILayout.FloatField ("Sin Velocity", script.xModifierVelocity);
 			script.xModifierRate = EditorGUILayout.FloatField ("Sin Rate", script.xModifierRate);
-			script.xModifierOffset = EditorGUILayout.FloatField ("Sin Offset", script.xModifierOffset);
+//			script.xModifierOffset = EditorGUILayout.FloatField ("Sin Offset", script.xModifierOffset);
+			script.xModifierOffset = EditorGUILayout.Slider("Sin Offset", script.xModifierOffset, 0, Mathf.PI);
 			break;
 		case (int)EnemyMovement.modifiers.cos:
 			script.xModifierVelocity = EditorGUILayout.FloatField ("Cos Velocity", script.xModifierVelocity);
 			script.xModifierRate = EditorGUILayout.FloatField ("Cos Rate", script.xModifierRate);
-			script.xModifierOffset = EditorGUILayout.FloatField ("Cos Offset", script.xModifierOffset);
+//			script.xModifierOffset = EditorGUILayout.FloatField ("Cos Offset", script.xModifierOffset);
+			script.xModifierOffset = EditorGUILayout.Slider("Cos Offset", script.xModifierOffset, 0, Mathf.PI);
 			break;
 		}
 		EditorGUILayout.Space ();
@@ -102,12 +104,14 @@ public class EnemyMovementEditor : Editor
 		case (int)EnemyMovement.modifiers.sin:
 			script.yModifierVelocity = EditorGUILayout.FloatField ("Sin Velocity", script.yModifierVelocity);
 			script.yModifierRate = EditorGUILayout.FloatField ("Sin Rate", script.yModifierRate);
-			script.yModifierOffset = EditorGUILayout.FloatField ("Sin Offset", script.yModifierOffset);
+//			script.yModifierOffset = EditorGUILayout.FloatField ("Sin Offset", script.yModifierOffset);
+			script.yModifierOffset = EditorGUILayout.Slider("Sin Offset", script.yModifierOffset, 0, Mathf.PI);
 			break;
 		case (int)EnemyMovement.modifiers.cos:
 			script.yModifierVelocity = EditorGUILayout.FloatField ("Cos Velocity", script.yModifierVelocity);
 			script.yModifierRate = EditorGUILayout.FloatField ("Cos Rate", script.yModifierRate);
-			script.yModifierOffset = EditorGUILayout.FloatField ("Cos Offset", script.yModifierOffset);
+//			script.yModifierOffset = EditorGUILayout.FloatField ("Cos Offset", script.yModifierOffset);
+			script.yModifierOffset = EditorGUILayout.Slider("Cos Offset", script.yModifierOffset, 0, Mathf.PI);
 			break;
 		}
 		EditorGUILayout.Space ();
