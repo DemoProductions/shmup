@@ -17,18 +17,18 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
-		Projectile bullet = this.bullets[bulletType].GetComponent<Projectile> ();
+        Projectile bullet = this.bullets[bulletType].GetComponent<Projectile> ();
 
-		if (this.refireTime < this.refireRate) this.refireTime += Time.deltaTime;
+        if (this.refireTime < this.refireRate) this.refireTime += Time.deltaTime;
     }
 
     public bool Shoot()
     {
-		Projectile bullet = this.bullets[bulletType].GetComponent<Projectile>();
+        Projectile bullet = this.bullets[bulletType].GetComponent<Projectile>();
 
         if (this.refireTime >= this.refireRate)
         {
-            Instantiate(this.bullets[bulletType], this.transform.position + new Vector3(xvelocity, yvelocity, 0), this.transform.rotation);
+            Instantiate(this.bullets[bulletType], this.transform.position + new Vector3(xvelocity, yvelocity, 0), this.gameObject.transform.parent.transform.rotation);
             this.refireTime = 0;
             return true;
         }
