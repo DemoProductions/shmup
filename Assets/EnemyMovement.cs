@@ -99,7 +99,6 @@ public class EnemyMovementEditor : Editor
 	override public void OnInspectorGUI()
 	{
 		serializedObject.Update ();
-//		var script = target as EnemyMovement;
 
 		EditorGUILayout.LabelField ("Base Movement", EditorStyles.boldLabel);
 		EditorGUILayout.PropertyField (xVelocity, new GUIContent ("X Velocity"));
