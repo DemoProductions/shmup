@@ -1,12 +1,7 @@
 ﻿using UnityEngine;
 
-public class LinearEnemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-
-    public int speed = 100;
-    public float xvelocity = -1;
-    public float yvelocity;
-
     Health health;
     Weapon weapon;
     Rigidbody2D rbody;
@@ -27,6 +22,6 @@ public class LinearEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        rbody.velocity = new Vector2 (xvelocity, yvelocity) * Time.deltaTime * speed;
+		
     }
 }
