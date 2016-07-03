@@ -67,54 +67,85 @@ public class EnemyMovement : MonoBehaviour
 [CustomEditor(typeof(EnemyMovement))]
 public class EnemyMovementEditor : Editor
 {
+	SerializedProperty xVelocity;
+	SerializedProperty yVelocity;
+
+	SerializedProperty xModifier;
+	SerializedProperty xModifierVelocity;
+	SerializedProperty xModifierRate;
+	SerializedProperty xModifierOffset;
+
+	SerializedProperty yModifier;
+	SerializedProperty yModifierVelocity;
+	SerializedProperty yModifierRate;
+	SerializedProperty yModifierOffset;
+
+	void OnEnable()
+	{
+		xVelocity = serializedObject.FindProperty ("xVelocity");
+		yVelocity = serializedObject.FindProperty ("yVelocity");
+
+		xModifier = serializedObject.FindProperty ("xModifier");
+		xModifierVelocity = serializedObject.FindProperty ("xModifierVelocity");
+		xModifierRate = serializedObject.FindProperty ("xModifierRate");
+		xModifierOffset = serializedObject.FindProperty ("xModifierOffset");
+
+		yModifier = serializedObject.FindProperty ("yModifier");
+		yModifierVelocity = serializedObject.FindProperty ("yModifierVelocity");
+		yModifierRate = serializedObject.FindProperty ("yModifierRate");
+		yModifierOffset = serializedObject.FindProperty ("yModifierOffset");
+	}
+
 	override public void OnInspectorGUI()
 	{
-		var script = target as EnemyMovement;
+		serializedObject.Update ();
+//		var script = target as EnemyMovement;
 
 		EditorGUILayout.LabelField ("Base Movement", EditorStyles.boldLabel);
-		script.xVelocity = EditorGUILayout.FloatField ("X Velocity", script.xVelocity);
-		script.yVelocity = EditorGUILayout.FloatField ("Y Velocity", script.yVelocity);
+		EditorGUILayout.PropertyField (xVelocity, new GUIContent ("X Velocity"));
+		EditorGUILayout.PropertyField (yVelocity, new GUIContent ("Y Velocity"));
 		EditorGUILayout.Space ();
 
 		EditorGUILayout.LabelField ("X Modifier", EditorStyles.boldLabel);
-		script.xModifier = (EnemyMovement.modifiers)EditorGUILayout.EnumPopup("X Modifier", script.xModifier);
+		EditorGUILayout.PropertyField(xModifier, new GUIContent ("X Modifier"));
 
-		switch ((int)script.xModifier)
+		switch ((int)xModifier.enumValueIndex)
 		{
 		case (int)EnemyMovement.modifiers.sin:
-			script.xModifierVelocity = EditorGUILayout.FloatField ("Sin Velocity", script.xModifierVelocity);
-			script.xModifierRate = EditorGUILayout.FloatField ("Sin Rate", script.xModifierRate);
-//			script.xModifierOffset = EditorGUILayout.FloatField ("Sin Offset", script.xModifierOffset);
-			script.xModifierOffset = EditorGUILayout.Slider("Sin Offset", script.xModifierOffset, 0, Mathf.PI);
+			EditorGUILayout.PropertyField (xModifierVelocity, new GUIContent ("Sin Velocity"));
+			EditorGUILayout.PropertyField (xModifierRate, new GUIContent ("Sin Rate"));
+//			EditorGUILayout.PropertyField (xModifierOffset, new GUIContent ("Sin Offset")); // non-slider version
+			EditorGUILayout.Slider(xModifierOffset, 0, Mathf.PI, new GUIContent("Sin Offset"));
 			break;
 		case (int)EnemyMovement.modifiers.cos:
-			script.xModifierVelocity = EditorGUILayout.FloatField ("Cos Velocity", script.xModifierVelocity);
-			script.xModifierRate = EditorGUILayout.FloatField ("Cos Rate", script.xModifierRate);
-//			script.xModifierOffset = EditorGUILayout.FloatField ("Cos Offset", script.xModifierOffset);
-			script.xModifierOffset = EditorGUILayout.Slider("Cos Offset", script.xModifierOffset, 0, Mathf.PI);
+			EditorGUILayout.PropertyField (xModifierVelocity, new GUIContent ("Cos Velocity"));
+			EditorGUILayout.PropertyField (xModifierRate, new GUIContent ("Cos Rate"));
+//			EditorGUILayout.PropertyField (xModifierOffset, new GUIContent ("Cos Offset")); // non-slider version
+			EditorGUILayout.Slider(xModifierOffset, 0, Mathf.PI, new GUIContent("Cos Offset"));
 			break;
 		}
 		EditorGUILayout.Space ();
 
 		EditorGUILayout.LabelField ("Y Modifier", EditorStyles.boldLabel);
-		script.yModifier = (EnemyMovement.modifiers)EditorGUILayout.EnumPopup("Y Modifier", script.yModifier);
+		EditorGUILayout.PropertyField(yModifier, new GUIContent ("Y Modifier"));
 
-		switch ((int)script.yModifier)
+		switch ((int)yModifier.enumValueIndex)
 		{
 		case (int)EnemyMovement.modifiers.sin:
-			script.yModifierVelocity = EditorGUILayout.FloatField ("Sin Velocity", script.yModifierVelocity);
-			script.yModifierRate = EditorGUILayout.FloatField ("Sin Rate", script.yModifierRate);
-//			script.yModifierOffset = EditorGUILayout.FloatField ("Sin Offset", script.yModifierOffset);
-			script.yModifierOffset = EditorGUILayout.Slider("Sin Offset", script.yModifierOffset, 0, Mathf.PI);
+			EditorGUILayout.PropertyField (yModifierVelocity, new GUIContent ("Sin Velocity"));
+			EditorGUILayout.PropertyField (yModifierRate, new GUIContent ("Sin Rate"));
+//			EditorGUILayout.PropertyField (yModifierOffset, new GUIContent ("Sin Offset")); // non-slider version
+			EditorGUILayout.Slider(yModifierOffset, 0, Mathf.PI, new GUIContent("Sin Offset"));
 			break;
 		case (int)EnemyMovement.modifiers.cos:
-			script.yModifierVelocity = EditorGUILayout.FloatField ("Cos Velocity", script.yModifierVelocity);
-			script.yModifierRate = EditorGUILayout.FloatField ("Cos Rate", script.yModifierRate);
-//			script.yModifierOffset = EditorGUILayout.FloatField ("Cos Offset", script.yModifierOffset);
-			script.yModifierOffset = EditorGUILayout.Slider("Cos Offset", script.yModifierOffset, 0, Mathf.PI);
+			EditorGUILayout.PropertyField (yModifierVelocity, new GUIContent ("Cos Velocity"));
+			EditorGUILayout.PropertyField (yModifierRate, new GUIContent ("Cos Rate"));
+//			EditorGUILayout.PropertyField (yModifierOffset, new GUIContent ("Cos Offset")); // non-slider version
+			EditorGUILayout.Slider(yModifierOffset, 0, Mathf.PI, new GUIContent("Cos Offset"));
 			break;
 		}
 		EditorGUILayout.Space ();
 
+		serializedObject.ApplyModifiedProperties ();
 	}
 }
