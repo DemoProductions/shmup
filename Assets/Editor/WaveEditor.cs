@@ -4,6 +4,12 @@ using UnityEditor;
 [CustomEditor(typeof(Wave))]
 public class WaveHandleEditor : Editor
 {
+	public override void OnInspectorGUI () {
+		serializedObject.Update();
+		WaveList.Show(serializedObject.FindProperty("spawnables"));
+		serializedObject.ApplyModifiedProperties();
+	}
+
 	public void OnSceneGUI()
 	{
 		Wave wave = target as Wave;
@@ -43,7 +49,7 @@ public class WaveHandleEditor : Editor
 //			Handles.DrawSolidRectangleWithOutline(new Rect(spawnable.x - 1, spawnable.y - 1, 2, 2), Color.red, Color.gray);
 
 			// label spawn
-			Handles.Label (new Vector3 (x + wave.transform.position.x, y - height / 2), "Element " + count++, style);
+			Handles.Label (new Vector3 (x + wave.transform.position.x, y - height / 2), "Spawn " + count++, style);
 
 			// draw positional line from spawn to y = 0
 			Handles.DrawLine (new Vector3 (x + wave.transform.position.x, y, 0), new Vector3 (x + wave.transform.position.x, 0, 0));
