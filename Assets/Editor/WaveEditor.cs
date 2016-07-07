@@ -4,10 +4,17 @@ using UnityEditor;
 [CustomEditor(typeof(Wave))]
 public class WaveHandleEditor : Editor
 {
+	bool snap = true;
+	float snapTo = .5f;
+
 	public override void OnInspectorGUI ()
 	{
 		serializedObject.Update();
+
+		snap = EditorGUILayout.Toggle ("Snap", snap);
+		snapTo = EditorGUILayout.FloatField ("Snap To", snapTo);
 		WaveList.Show(serializedObject.FindProperty("spawnables"));
+
 		serializedObject.ApplyModifiedProperties();
 	}
 
@@ -66,6 +73,13 @@ public class WaveHandleEditor : Editor
 			}
 
 			Vector3 position = Handles.PositionHandle (new Vector3 (x + wave.transform.position.x, y, 0), rotation);
+
+			// snap check
+			if (snap)
+			{	//round(X / N)*N
+				position.x = (float)System.Math.Round(position.x / snapTo) * snapTo;
+				position.y = (float)System.Math.Round(position.y / snapTo) * snapTo;
+			}
 
 			if (EditorGUI.EndChangeCheck())
 			{
