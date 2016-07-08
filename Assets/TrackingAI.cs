@@ -12,13 +12,13 @@ public class TrackingAI : MonoBehaviour
 		both
 	}
 
-	static List<GameObject> targets;
+	public static List<GameObject> targets;
 
 	public float degreesPerSecond = 180;
 	public float trackingRadius = 2;
 	public targetTypes targetType = targetTypes.enemy;
 
-	GameObject target = null;
+	public GameObject target = null;
 
 	Team team = null;
 
@@ -36,12 +36,12 @@ public class TrackingAI : MonoBehaviour
 	{
 		targets.RemoveAll (target => target == null);
 
-		// I love me some lambdas
-		// Get objects within range
-		List<GameObject> trackableTargets = targets.Where ((target) => (target.transform.position - this.transform.position).sqrMagnitude < trackingRadius * trackingRadius).ToList();
+        // I love me some lambdas
+        // Get objects within range
+        List<GameObject> trackableTargets = targets.Where((target) => (target.transform.position - this.transform.position).sqrMagnitude < trackingRadius * trackingRadius).ToList();
 
-		// Filter targets by target type, ignore if no team was set
-		if (this.team)
+        // Filter targets by target type, ignore if no team was set
+        if (this.team)
 		{
 			switch ((int)targetType)
 			{
@@ -49,19 +49,25 @@ public class TrackingAI : MonoBehaviour
 				trackableTargets = trackableTargets.Where (target =>
 				{
 					Team team = target.GetComponent<Team> ();
-					return team && team.IsFriendly (this.team);
+                    Flag flag = target.GetComponent<Flag>();
+					return team && team.IsFriendly (this.team) && flag.isTrackable;
 				}).ToList();
 				break;
 			case (int)targetTypes.enemy:
 				trackableTargets = trackableTargets.Where (target =>
 				{
 					Team team = target.GetComponent<Team> ();
-					return team && team.IsEnemy (this.team);
+                    Flag flag = target.GetComponent<Flag>();
+                    return team && team.IsEnemy (this.team) && flag.isTrackable;
 				}).ToList();
 				break;
 			case (int)targetTypes.both:
-				// do nothing, already have both
-				break;
+                trackableTargets = trackableTargets.Where(target =>
+                {
+                    Flag flag = target.GetComponent<Flag>();
+                    return flag.isTrackable;
+                }).ToList();
+                break;
 			default:
 				// do nothing, default to both, shouldn't be possible due to editor setting targetType
 				break;
