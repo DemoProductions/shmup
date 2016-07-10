@@ -40,6 +40,9 @@ public class TrackingAI : MonoBehaviour
         // Get objects within range
         List<GameObject> trackableTargets = targets.Where((target) => (target.transform.position - this.transform.position).sqrMagnitude < trackingRadius * trackingRadius).ToList();
 
+        // Get trackable targets
+        trackableTargets = targets.Where((target) => (target.GetComponent("Flag") && target.GetComponent<Flag>().isTrackable)).ToList();
+
         // Filter targets by target type, ignore if no team was set
         if (this.team)
         {
@@ -49,24 +52,18 @@ public class TrackingAI : MonoBehaviour
                 trackableTargets = trackableTargets.Where (target =>
                 {
                     Team team = target.GetComponent<Team> ();
-                    Flag flag = target.GetComponent<Flag>();
-                    return team && team.IsFriendly(this.team) && flag.isTrackable;
+                    return team && team.IsFriendly(this.team);
                 }).ToList();
                 break;
             case (int)targetTypes.enemy:
                 trackableTargets = trackableTargets.Where (target =>
                 {
                     Team team = target.GetComponent<Team> ();
-                    Flag flag = target.GetComponent<Flag>();
-                    return team && team.IsEnemy(this.team) && flag.isTrackable;
+                    return team && team.IsEnemy(this.team);
                 }).ToList();
                 break;
             case (int)targetTypes.both:
-                trackableTargets = trackableTargets.Where(target =>
-                {
-                    Flag flag = target.GetComponent<Flag>();
-                    return flag.isTrackable;
-                }).ToList();
+                // do nothing, already have both
                 break;
             default:
                 // do nothing, default to both, shouldn't be possible due to editor setting targetType
@@ -74,7 +71,7 @@ public class TrackingAI : MonoBehaviour
             }
         }
 
-        // Sort and get the closeset target
+        // Sort and get the closest target
         if (trackableTargets.Count() == 0)
         {
             target = null;
