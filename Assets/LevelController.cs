@@ -15,41 +15,62 @@ public class LevelController : MonoBehaviour {
 //		public int boss; // for later
 	}
 
+	public float waveSeparation = 10;
+
 	public Level[] levels;
 
-	// Level pathing
-//	public static string levelsPath = "Levels"; // path to the levels folder
-//	static string levelFolderName = "Level"; // base name for Level folders
-//	static string generalFolderName = "General"; // name of general assets folder
-//	private static Func<string, string> FolderName = (s) => i == 0 ? generalFolderName : levelFolderName + s;
-//	public static Func<string, string> LevelFolder = (s) => levelsPath + "/" + FolderName(s); // define path to each LevelFolder
+	public static Func<string, string, string> JoinPaths = (str1, str2) => str1 + "/" + str2;
 
-	// Level / Wave pathing
-//	static string waveFolderName = "Wave";
-//	static string waveFileName = "wave";
-//	public static Func<int, string> WaveFolder = (i) => LevelFolder(i) + "/" + waveFolderName;
-//	public static Func<int, int, string> WaveFile = (i, j) => WaveFolder(i) + "/" + waveFileName + j;
-//	public static Func<int, int, Wave> Wave = (i, j) => Resources.Load(WaveFile(i, j), typeof(Wave)) as Wave;
-
-	// Level / Background pathing
-//	static string backgroundFileName = "background";
-//	public static Func<int, int, GameObject> = (i, j) => (null);
+	public static string backgroundsFolder = "Backgrounds";
+	public static string middlegroundsFolder = "Middlegrounds";
+	public static string wavesFolder = "Waves";
 
 	// Use this for initialization
-	void Start () {
-		// instantiate level
-		foreach (Level level in levels) {
-			Debug.Log (level.name);
-			Debug.Log (level.background);
-			Debug.Log (level.middleground);
-			foreach (string wave in level.waves) {
-				Debug.Log (wave);
+	void Start ()
+	{
+		// debug for vars
+//		foreach (Level level in levels) {
+//			Debug.Log (level.name);
+//			Debug.Log (level.background);
+//			Debug.Log (level.middleground);
+//			foreach (string wave in level.waves) {
+//				Debug.Log (wave);
+//			}
+//		}
+
+		// get proper level
+		Level level = levels[0]; // for now default to first level
+
+		// instantiate background
+		GameObject background = Resources.Load(JoinPaths(backgroundsFolder, level.background)) as GameObject;
+		if (background)
+		{
+			Instantiate(background, Vector3.zero, Quaternion.identity);
+		}
+
+		// instantiate middleground
+		GameObject middleground = Resources.Load(JoinPaths(middlegroundsFolder, level.middleground)) as GameObject;
+		if (middleground)
+		{
+			Instantiate(middleground, Vector3.zero, Quaternion.identity);
+		}
+
+		// instantiate player ? (will need to add this probably, though it will grab this from player choice...)
+
+		// instantiate waves
+		for (int i = 0; i < level.waves.Length; i++)
+		{
+			GameObject wave = Resources.Load(JoinPaths(wavesFolder, level.waves [i])) as GameObject;
+			if (wave)
+			{
+				Instantiate (wave, new Vector3 (waveSeparation * (i + 1), 0), Quaternion.identity);
 			}
 		}
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 	
 	}
 }
