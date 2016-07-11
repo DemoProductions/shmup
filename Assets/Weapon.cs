@@ -22,11 +22,15 @@ public class Weapon : MonoBehaviour
 
     public bool Shoot()
     {
-        GameObject projectile = this.projectiles[this.projectileType];
+        //GameObject projectile = this.projectiles[this.projectileType];
 
         if (this.refireTime >= this.refireRate)
         {
-            Instantiate(this.projectiles[this.projectileType], this.transform.position + new Vector3(xvelocity, yvelocity, 0), this.gameObject.transform.parent.transform.rotation);
+            GameObject newProjectile = Instantiate(this.projectiles[this.projectileType], this.transform.position + new Vector3(xvelocity, yvelocity, 0), this.gameObject.transform.parent.transform.rotation) as GameObject;
+
+            TrackingAI newProjectileComp = newProjectile.GetComponent<TrackingAI>();
+            if (newProjectileComp) newProjectileComp.parent = this.transform.parent.gameObject;
+
             this.refireTime = 0;
             return true;
         }
