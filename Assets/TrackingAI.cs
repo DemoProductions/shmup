@@ -12,7 +12,7 @@ public class TrackingAI : MonoBehaviour
         both
     }
 
-    public static List<GameObject> targets;
+    static List<GameObject> targets;
 
     public float degreesPerSecond = 180;
     public float trackingRadius = 2;
