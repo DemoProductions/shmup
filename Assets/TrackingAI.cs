@@ -18,7 +18,8 @@ public class TrackingAI : MonoBehaviour
     public float trackingRadius = 2;
     public targetTypes targetType = targetTypes.enemy;
 
-    GameObject target = null;
+    public GameObject parent = null;
+    public GameObject target = null;
 
     Team team = null;
 
@@ -41,7 +42,10 @@ public class TrackingAI : MonoBehaviour
         List<GameObject> trackableTargets = targets.Where((target) => (target.transform.position - this.transform.position).sqrMagnitude < trackingRadius * trackingRadius).ToList();
 
         // Get trackable targets
-        trackableTargets = targets.Where((target) => (target.GetComponent("Flag") && target.GetComponent<Flag>().isTrackable)).ToList();
+        trackableTargets = trackableTargets.Where((target) => (target.GetComponent("Flag") && target.GetComponent<Flag>().isTrackable)).ToList();
+
+        // Do not track parent and itself
+        trackableTargets = trackableTargets.Where((target) => (parent != target && target != this.gameObject)).ToList();
 
         // Filter targets by target type, ignore if no team was set
         if (this.team)
