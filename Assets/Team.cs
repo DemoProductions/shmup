@@ -26,7 +26,7 @@ public class Team : MonoBehaviour
 
 	public bool IsFriendly(Team otherTeam)
 	{
-		if (team == otherTeam.team)
+        if (team == otherTeam.team || team == teams.none || otherTeam.team == teams.none)
 			return true;
 		else
 			return false;
@@ -34,7 +34,7 @@ public class Team : MonoBehaviour
 
 	public bool IsEnemy(Team otherTeam)
 	{
-		if (team != otherTeam.team)
+		if (team != otherTeam.team && team != teams.none && otherTeam.team != teams.none)
 			return true;
 		else
 			return false;
