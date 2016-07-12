@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEditor;
+using System.Linq;
+using System;
 
 public class EnemyMovement : MonoBehaviour
 {
@@ -28,10 +30,18 @@ public class EnemyMovement : MonoBehaviour
 
 	Rigidbody2D rbody;
 
+	public float startTime = 0;
+
+	float LocalTime () {
+		return Time.time - startTime;
+	}
+
 	// Use this for initialization
 	void Start ()
 	{
 		rbody = gameObject.GetComponent<Rigidbody2D> ();
+
+		startTime = Time.time;
 	}
 	
 	// Update is called once per frame
@@ -43,20 +53,20 @@ public class EnemyMovement : MonoBehaviour
 		switch ((int)xModifier)
 		{
 		case (int)modifiers.sin:
-			x += Mathf.Sin ((Time.time + xModifierOffset) * xModifierRate) * xModifierVelocity;
+			x += Mathf.Sin ((LocalTime() + xModifierOffset) * xModifierRate) * xModifierVelocity;
 			break;
 		case (int)modifiers.cos:
-			x += Mathf.Cos ((Time.time + xModifierOffset) * xModifierRate) * xModifierVelocity;
+			x += Mathf.Cos ((LocalTime() + xModifierOffset) * xModifierRate) * xModifierVelocity;
 			break;
 		}
 
 		switch ((int)yModifier)
 		{
 		case (int)modifiers.sin:
-			y += Mathf.Sin ((Time.time + yModifierOffset) * yModifierRate) * yModifierVelocity;
+			y += Mathf.Sin ((LocalTime() + yModifierOffset) * yModifierRate) * yModifierVelocity;
 			break;
 		case (int)modifiers.cos:
-			y += Mathf.Cos ((Time.time + yModifierOffset) * yModifierRate) * yModifierVelocity;
+			y += Mathf.Cos ((LocalTime() + yModifierOffset) * yModifierRate) * yModifierVelocity;
 			break;
 		}
 
