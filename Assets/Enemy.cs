@@ -25,10 +25,10 @@ public class Enemy : MonoBehaviour
         rbody = this.GetComponent<Rigidbody2D> ();
 
         movement = this.GetComponent<EnemyMovement> ();
-        movement.enabled = false;
+        if (movement) movement.enabled = false;
 
         boundingstimeout = this.GetComponent<BoundingsTimeout2D> ();
-        boundingstimeout.enabled = false;
+        if (boundingstimeout) boundingstimeout.enabled = false;
 
         spriterenderer = this.GetComponent<SpriteRenderer> ();
     }
