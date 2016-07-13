@@ -1,5 +1,11 @@
 ﻿using UnityEngine;
 
+
+[RequireComponent (typeof(Rigidbody))]
+[RequireComponent (typeof(Health))]
+[RequireComponent (typeof(EnemyMovement))]
+[RequireComponent (typeof(BoundingsTimeout2D))]
+[RequireComponent (typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour
 {
     Health health;
@@ -25,10 +31,10 @@ public class Enemy : MonoBehaviour
         rbody = this.GetComponent<Rigidbody2D> ();
 
         movement = this.GetComponent<EnemyMovement> ();
-        if (movement) movement.enabled = false;
+        movement.enabled = false;
 
         boundingstimeout = this.GetComponent<BoundingsTimeout2D> ();
-        if (boundingstimeout) boundingstimeout.enabled = false;
+        boundingstimeout.enabled = false;
 
         spriterenderer = this.GetComponent<SpriteRenderer> ();
     }
