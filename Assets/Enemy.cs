@@ -42,8 +42,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            if (weapon)
-                weapon.Shoot ();
+            if (weapon) weapon.Shoot ();
         }
     }
 
