@@ -3,6 +3,13 @@
 [RequireComponent(typeof(Health))]
 public class HealthBar : MonoBehaviour
 {
+    
+    public class HealthNode
+    {
+        public GameObject healthpointImageEmpty;
+        public GameObject healthpointImageFull;
+    }
+
     static int healthpointOffset = 25;
 
     public GameObject healthbarCanvasPrefab;
@@ -12,7 +19,7 @@ public class HealthBar : MonoBehaviour
     public GameObject healthpointImageEmptyPrefab;
 
     GameObject healthbarCanvas;
-    GameObject[] healthpointImages;
+    HealthNode[] healthNodes;
     int healthpointCursor; // keeps track of how much health healthbarCanvas is showing
 
 	// Use this for initialization
@@ -24,15 +31,25 @@ public class HealthBar : MonoBehaviour
 
             // initialize healthpointImages array and healthpointCursor
             Health health = gameObject.GetComponent<Health> ();
-            healthpointImages = new GameObject[health.hp];
-            healthpointCursor = healthpointImages.Length - 1;
+            healthNodes = new HealthNode[health.hp];
+            healthpointCursor = healthNodes.Length - 1;
             
             // instantiate healthpoint images and add them to the healthpoints array
             for (int i = 0; i < health.hp; i++)
             {
-                GameObject healthpointImage = Instantiate (healthpointImageFullPrefab, new Vector3(i * healthpointOffset, 0, 0), Quaternion.identity) as GameObject;
-                healthpointImage.transform.SetParent (healthbarCanvas.transform);
-                healthpointImages[i] = healthpointImage;
+                GameObject healthpointImageEmpty = Instantiate(healthpointImageEmptyPrefab, new Vector3(i * healthpointOffset, 0, 0), Quaternion.identity) as GameObject;
+                GameObject healthpointImageFull = Instantiate (healthpointImageFullPrefab, new Vector3(i * healthpointOffset, 0, 0), Quaternion.identity) as GameObject;
+                
+                healthpointImageEmpty.transform.SetParent (healthbarCanvas.transform);
+                healthpointImageFull.transform.SetParent(healthbarCanvas.transform);
+
+                HealthNode healthNode = new HealthNode();
+                healthNode.healthpointImageEmpty = healthpointImageEmpty;
+                healthNode.healthpointImageFull = healthpointImageFull;
+
+                healthNode.healthpointImageEmpty.gameObject.SetActive(false);
+
+                healthNodes[i] = healthNode;
             }
         }
 	}
@@ -48,11 +65,8 @@ public class HealthBar : MonoBehaviour
             while (health.hp - 1 != healthpointCursor)
             {
                 healthpointCursor = healthpointCursor - 1;
-                GameObject healthpointImage = healthpointImages[healthpointCursor + 1];
-                GameObject newHealthpointImage = Instantiate(healthpointImageEmptyPrefab, new Vector3(healthpointImage.transform.position.x, healthpointImage.transform.position.y, 0), Quaternion.identity) as GameObject;
-                newHealthpointImage.transform.SetParent(healthbarCanvas.transform);
-                healthpointImages[healthpointCursor + 1] = newHealthpointImage;
-                Destroy(healthpointImage.gameObject);
+                healthNodes[healthpointCursor + 1].healthpointImageEmpty.SetActive(true);
+                healthNodes[healthpointCursor + 1].healthpointImageFull.SetActive(false);
             }
         }
         else if (health.hp - 1 > healthpointCursor)
@@ -60,11 +74,8 @@ public class HealthBar : MonoBehaviour
             while (health.hp - 1 != healthpointCursor)
             {
                 healthpointCursor = healthpointCursor + 1;
-                GameObject healthpointImage = healthpointImages[healthpointCursor];
-                GameObject newHealthpointImage = Instantiate(healthpointImageFullPrefab, new Vector3(healthpointImage.transform.position.x, healthpointImage.transform.position.y, 0), Quaternion.identity) as GameObject;
-                newHealthpointImage.transform.SetParent(healthbarCanvas.transform);
-                healthpointImages[healthpointCursor] = newHealthpointImage;
-                Destroy(healthpointImage.gameObject);
+                healthNodes[healthpointCursor].healthpointImageFull.SetActive(true);
+                healthNodes[healthpointCursor].healthpointImageEmpty.SetActive(false);
             }
         }
 	}
