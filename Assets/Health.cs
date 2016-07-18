@@ -3,7 +3,7 @@
 public class Health : MonoBehaviour
 {
 
-    public int hp = 100;
+    public int hp = 3;
 
     void Start()
     {
