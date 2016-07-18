@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-public class Flag : MonoBehaviour {
-
-    public bool isTrackable;
-    //public bool isInvincible;
+public class Flag : MonoBehaviour
+{
+	public bool isTrackable;
+	//public bool isInvincible;
 }

@@ -3,19 +3,19 @@
 public class Health : MonoBehaviour
 {
 
-    public int hp = 3;
+	public int hp = 3;
 
-    void Start()
-    {
-    }
+	void Start ()
+	{
+	}
 
-    public void Damage(int damage)
-    {
-        hp -= damage;
+	public void Damage (int damage)
+	{
+		hp -= damage;
 
-        if (hp <= 0)
-        {
-            Destroy(this.gameObject);
-        }
-    }
+		if (hp <= 0)
+		{
+			Destroy (this.gameObject);
+		}
+	}
 }

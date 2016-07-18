@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(Wave))]
+[CustomEditor (typeof(Wave))]
 public class WaveHandleEditor : Editor
 {
 	bool snap = true;
@@ -9,23 +9,23 @@ public class WaveHandleEditor : Editor
 
 	public override void OnInspectorGUI ()
 	{
-		serializedObject.Update();
+		serializedObject.Update ();
 
 		snap = EditorGUILayout.Toggle ("Snap", snap);
 		snapTo = EditorGUILayout.FloatField ("Snap To", snapTo);
-		WaveList.Show(serializedObject.FindProperty("spawnables"));
+		WaveList.Show (serializedObject.FindProperty ("spawnables"));
 
-		serializedObject.ApplyModifiedProperties();
+		serializedObject.ApplyModifiedProperties ();
 	}
 
-	public void OnSceneGUI()
+	public void OnSceneGUI ()
 	{
 		Wave wave = target as Wave;
 		wave.transform.position = new Vector3 (wave.transform.position.x, 0, 0);
 
 		// everything in blinding purple for visibility
 		Handles.color = Color.magenta;
-		GUIStyle style = new GUIStyle();
+		GUIStyle style = new GUIStyle ();
 		style.normal.textColor = Color.magenta;
 		style.alignment = TextAnchor.LowerCenter;
 
@@ -53,7 +53,7 @@ public class WaveHandleEditor : Editor
 			}
 
 			// draw spawn square
-			Handles.DrawSolidRectangleWithOutline(new Rect((x - width / 2) + wave.transform.position.x, y - height / 2, width, height), Color.red, Color.gray);
+			Handles.DrawSolidRectangleWithOutline (new Rect ((x - width / 2) + wave.transform.position.x, y - height / 2, width, height), Color.red, Color.gray);
 //			Handles.DrawSolidRectangleWithOutline(new Rect(spawnable.x - 1, spawnable.y - 1, 2, 2), Color.red, Color.gray);
 
 			// label spawn
@@ -63,7 +63,7 @@ public class WaveHandleEditor : Editor
 			Handles.DrawLine (new Vector3 (x + wave.transform.position.x, y, 0), new Vector3 (x + wave.transform.position.x, 0, 0));
 
 			// draw handle for spawn
-			EditorGUI.BeginChangeCheck( );
+			EditorGUI.BeginChangeCheck ();
 
 			Quaternion rotation = Quaternion.identity;
 
@@ -77,26 +77,31 @@ public class WaveHandleEditor : Editor
 			// snap check
 			if (snap)
 			{	//round(X / N)*N
-				position.x = (float)System.Math.Round(position.x / snapTo) * snapTo;
-				position.y = (float)System.Math.Round(position.y / snapTo) * snapTo;
+				position.x = (float)System.Math.Round (position.x / snapTo) * snapTo;
+				position.y = (float)System.Math.Round (position.y / snapTo) * snapTo;
 			}
 
-			if (EditorGUI.EndChangeCheck())
+			if (EditorGUI.EndChangeCheck ())
 			{
-				Undo.RecordObject(wave, "Moved spawnable");
+				Undo.RecordObject (wave, "Moved spawnable");
 				spawnable.position.x = (position.x - wave.transform.position.x);
 				spawnable.position.y = (position.y);
 			}
 		}
 
 		// camera square
-		var left = Camera.main.ViewportToWorldPoint(Vector3.zero).x + wave.transform.position.x;
-		var right = Camera.main.ViewportToWorldPoint(Vector3.one).x + wave.transform.position.x;
-		var top = Camera.main.ViewportToWorldPoint(Vector3.zero).y;
-		var bottom = Camera.main.ViewportToWorldPoint(Vector3.one).y;
+		var left = Camera.main.ViewportToWorldPoint (Vector3.zero).x + wave.transform.position.x;
+		var right = Camera.main.ViewportToWorldPoint (Vector3.one).x + wave.transform.position.x;
+		var top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
+		var bottom = Camera.main.ViewportToWorldPoint (Vector3.one).y;
 
-		Vector3[] cameraVerts = {new Vector3(left, top, 0), new Vector3(right, top, 0), new Vector3(right, bottom, 0), new Vector3(left, bottom, 0)};
-		Handles.DrawSolidRectangleWithOutline(cameraVerts, Color.clear, Color.magenta);
+		Vector3[] cameraVerts = {
+			new Vector3 (left, top, 0),
+			new Vector3 (right, top, 0),
+			new Vector3 (right, bottom, 0),
+			new Vector3 (left, bottom, 0)
+		};
+		Handles.DrawSolidRectangleWithOutline (cameraVerts, Color.clear, Color.magenta);
 
 		// y = 0 line
 		Handles.DrawLine (new Vector3 (left, 0, 0), new Vector3 (right, 0, 0));
