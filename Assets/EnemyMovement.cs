@@ -6,10 +6,11 @@ using System;
 
 public class EnemyMovement : MonoBehaviour
 {
-
+	
 	public int speed = 100;
 
-	public enum modifiers {
+	public enum modifiers
+	{
 		none,
 		sin,
 		cos
@@ -32,7 +33,8 @@ public class EnemyMovement : MonoBehaviour
 
 	public float startTime = 0;
 
-	float LocalTime () {
+	float LocalTime ()
+	{
 		return Time.time - startTime;
 	}
 
@@ -53,20 +55,20 @@ public class EnemyMovement : MonoBehaviour
 		switch ((int)xModifier)
 		{
 		case (int)modifiers.sin:
-			x += Mathf.Sin ((LocalTime() + xModifierOffset) * xModifierRate) * xModifierVelocity;
+			x += Mathf.Sin ((LocalTime () + xModifierOffset) * xModifierRate) * xModifierVelocity;
 			break;
 		case (int)modifiers.cos:
-			x += Mathf.Cos ((LocalTime() + xModifierOffset) * xModifierRate) * xModifierVelocity;
+			x += Mathf.Cos ((LocalTime () + xModifierOffset) * xModifierRate) * xModifierVelocity;
 			break;
 		}
 
 		switch ((int)yModifier)
 		{
 		case (int)modifiers.sin:
-			y += Mathf.Sin ((LocalTime() + yModifierOffset) * yModifierRate) * yModifierVelocity;
+			y += Mathf.Sin ((LocalTime () + yModifierOffset) * yModifierRate) * yModifierVelocity;
 			break;
 		case (int)modifiers.cos:
-			y += Mathf.Cos ((LocalTime() + yModifierOffset) * yModifierRate) * yModifierVelocity;
+			y += Mathf.Cos ((LocalTime () + yModifierOffset) * yModifierRate) * yModifierVelocity;
 			break;
 		}
 
@@ -74,7 +76,7 @@ public class EnemyMovement : MonoBehaviour
 	}
 }
 
-[CustomEditor(typeof(EnemyMovement))]
+[CustomEditor (typeof(EnemyMovement))]
 public class EnemyMovementEditor : Editor
 {
 	SerializedProperty xVelocity;
@@ -90,7 +92,7 @@ public class EnemyMovementEditor : Editor
 	SerializedProperty yModifierRate;
 	SerializedProperty yModifierOffset;
 
-	void OnEnable()
+	void OnEnable ()
 	{
 		xVelocity = serializedObject.FindProperty ("xVelocity");
 		yVelocity = serializedObject.FindProperty ("yVelocity");
@@ -106,7 +108,7 @@ public class EnemyMovementEditor : Editor
 		yModifierOffset = serializedObject.FindProperty ("yModifierOffset");
 	}
 
-	override public void OnInspectorGUI()
+	override public void OnInspectorGUI ()
 	{
 		serializedObject.Update ();
 
@@ -116,7 +118,7 @@ public class EnemyMovementEditor : Editor
 		EditorGUILayout.Space ();
 
 		EditorGUILayout.LabelField ("X Modifier", EditorStyles.boldLabel);
-		EditorGUILayout.PropertyField(xModifier, new GUIContent ("X Modifier"));
+		EditorGUILayout.PropertyField (xModifier, new GUIContent ("X Modifier"));
 
 		switch ((int)xModifier.enumValueIndex)
 		{
@@ -124,19 +126,19 @@ public class EnemyMovementEditor : Editor
 			EditorGUILayout.PropertyField (xModifierVelocity, new GUIContent ("Sin Velocity"));
 			EditorGUILayout.PropertyField (xModifierRate, new GUIContent ("Sin Rate"));
 //			EditorGUILayout.PropertyField (xModifierOffset, new GUIContent ("Sin Offset")); // non-slider version
-			EditorGUILayout.Slider(xModifierOffset, 0, Mathf.PI, new GUIContent("Sin Offset"));
+			EditorGUILayout.Slider (xModifierOffset, 0, Mathf.PI, new GUIContent ("Sin Offset"));
 			break;
 		case (int)EnemyMovement.modifiers.cos:
 			EditorGUILayout.PropertyField (xModifierVelocity, new GUIContent ("Cos Velocity"));
 			EditorGUILayout.PropertyField (xModifierRate, new GUIContent ("Cos Rate"));
 //			EditorGUILayout.PropertyField (xModifierOffset, new GUIContent ("Cos Offset")); // non-slider version
-			EditorGUILayout.Slider(xModifierOffset, 0, Mathf.PI, new GUIContent("Cos Offset"));
+			EditorGUILayout.Slider (xModifierOffset, 0, Mathf.PI, new GUIContent ("Cos Offset"));
 			break;
 		}
 		EditorGUILayout.Space ();
 
 		EditorGUILayout.LabelField ("Y Modifier", EditorStyles.boldLabel);
-		EditorGUILayout.PropertyField(yModifier, new GUIContent ("Y Modifier"));
+		EditorGUILayout.PropertyField (yModifier, new GUIContent ("Y Modifier"));
 
 		switch ((int)yModifier.enumValueIndex)
 		{
@@ -144,13 +146,13 @@ public class EnemyMovementEditor : Editor
 			EditorGUILayout.PropertyField (yModifierVelocity, new GUIContent ("Sin Velocity"));
 			EditorGUILayout.PropertyField (yModifierRate, new GUIContent ("Sin Rate"));
 //			EditorGUILayout.PropertyField (yModifierOffset, new GUIContent ("Sin Offset")); // non-slider version
-			EditorGUILayout.Slider(yModifierOffset, 0, Mathf.PI, new GUIContent("Sin Offset"));
+			EditorGUILayout.Slider (yModifierOffset, 0, Mathf.PI, new GUIContent ("Sin Offset"));
 			break;
 		case (int)EnemyMovement.modifiers.cos:
 			EditorGUILayout.PropertyField (yModifierVelocity, new GUIContent ("Cos Velocity"));
 			EditorGUILayout.PropertyField (yModifierRate, new GUIContent ("Cos Rate"));
 //			EditorGUILayout.PropertyField (yModifierOffset, new GUIContent ("Cos Offset")); // non-slider version
-			EditorGUILayout.Slider(yModifierOffset, 0, Mathf.PI, new GUIContent("Cos Offset"));
+			EditorGUILayout.Slider (yModifierOffset, 0, Mathf.PI, new GUIContent ("Cos Offset"));
 			break;
 		}
 		EditorGUILayout.Space ();

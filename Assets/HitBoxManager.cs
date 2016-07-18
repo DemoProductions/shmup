@@ -4,7 +4,7 @@ using System.Collections;
 public class HitBoxManager : ColliderManager
 {
 	
-	public override void OnTriggerEnter2D(Collider2D collider)
+	public override void OnTriggerEnter2D (Collider2D collider)
 	{
 		string reaction; //debug var
 		// ignore parent collisions

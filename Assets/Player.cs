@@ -3,42 +3,42 @@
 public class Player : MonoBehaviour
 {
 
-    public int speed = 100;
-    public float xvelocity;
-    public float yvelocity;
+	public int speed = 100;
+	public float xvelocity;
+	public float yvelocity;
 
-    Health health;
-    public Weapon weapon;
-    Rigidbody2D rbody;
+	Health health;
+	public Weapon weapon;
+	Rigidbody2D rbody;
 
-    // Use this for initialization
-    void Start ()
-    {
-        health = gameObject.GetComponent<Health> ();
+	// Use this for initialization
+	void Start ()
+	{
+		health = gameObject.GetComponent<Health> ();
 
-        if (weapon)
-        {
-            weapon = Instantiate(weapon, new Vector3(this.gameObject.transform.position.x, this.gameObject.transform.position.y, 0), Quaternion.identity) as Weapon;
-            weapon.transform.SetParent(this.gameObject.transform);
-        }
+		if (weapon)
+		{
+			weapon = Instantiate (weapon, new Vector3 (this.gameObject.transform.position.x, this.gameObject.transform.position.y, 0), Quaternion.identity) as Weapon;
+			weapon.transform.SetParent (this.gameObject.transform);
+		}
 
-        rbody = gameObject.GetComponent<Rigidbody2D> ();
-    }
-    
-    // Update is called once per frame
-    void Update ()
-    {
-        xvelocity = Input.GetAxis ("Horizontal");
-        yvelocity = Input.GetAxis ("Vertical");
+		rbody = gameObject.GetComponent<Rigidbody2D> ();
+	}
 
-        if (Input.GetAxis ("Fire1") > 0 && weapon)
-        {
-            weapon.Shoot();
-        }
-    }
+	// Update is called once per frame
+	void Update ()
+	{
+		xvelocity = Input.GetAxis ("Horizontal");
+		yvelocity = Input.GetAxis ("Vertical");
 
-    void FixedUpdate()
-    {
-        rbody.velocity = new Vector2 (xvelocity, yvelocity) * Time.deltaTime * speed;
-    }
+		if (Input.GetAxis ("Fire1") > 0 && weapon)
+		{
+			weapon.Shoot ();
+		}
+	}
+
+	void FixedUpdate ()
+	{
+		rbody.velocity = new Vector2 (xvelocity, yvelocity) * Time.deltaTime * speed;
+	}
 }
