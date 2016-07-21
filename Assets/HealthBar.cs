@@ -10,22 +10,27 @@ public class HealthBar : MonoBehaviour
 		public GameObject healthNodeImageFull;
 	}
 
-	public int healthNodeOffset = 25;
+	// y positions of healthbars depend on the playerNumber
+	public int player1YOffset = 0;
+	public int player2YOffset = -50;
+
+	public int healthNodeOffset = 25; // amount of space between health nodes
 
 	public GameObject healthbarCanvasPrefab;
 
-	// healthpoint images are anchored to the top left of the screen
+	// healthNode images are anchored to some position in the screen
 	public GameObject healthNodeImageFullPrefab;
 	public GameObject healthNodeImageEmptyPrefab;
 
 	GameObject healthbarCanvas;
 	HealthNode[] healthNodes;
 	int healthNodeCursor; // keeps track of how much health healthbarCanvas is showing
+	int yOffset; // y position of this healthbar
 
 	// Use this for initialization
 	void Start ()
 	{
-		if (healthbarCanvasPrefab)
+		if (healthbarCanvasPrefab && healthNodeImageFullPrefab && healthNodeImageEmptyPrefab) 
 		{
 			healthbarCanvas = Instantiate (healthbarCanvasPrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
 
@@ -34,11 +39,22 @@ public class HealthBar : MonoBehaviour
 			healthNodes = new HealthNode[health.hp];
 			healthNodeCursor = healthNodes.Length - 1;
 
-			// instantiate healthpoint images and add them to the healthNodes array
-			for (int i = 0; i < health.hp; i++)
+			// location of healthNodes depend on the playerNumber set in Flag
+			Flag flag = this.gameObject.GetComponent<Flag> ();
+			if (flag.playerNumber == Flag.PlayerEnum.player1)
 			{
-				GameObject healthpointImageEmpty = Instantiate (healthNodeImageEmptyPrefab, new Vector3 (i * healthNodeOffset, 0, 0), Quaternion.identity) as GameObject;
-				GameObject healthpointImageFull = Instantiate (healthNodeImageFullPrefab, new Vector3 (i * healthNodeOffset, 0, 0), Quaternion.identity) as GameObject;
+				yOffset = player1YOffset;
+			} 
+			else if (flag.playerNumber == Flag.PlayerEnum.player2)
+			{
+				yOffset = player2YOffset;
+			}
+
+			// instantiate healthpoint images and add them to the healthNodes array
+			for (int i = 0; i < health.hp; i++) 
+			{
+				GameObject healthpointImageEmpty = Instantiate (healthNodeImageEmptyPrefab, new Vector3 (i * healthNodeOffset, yOffset, 0), Quaternion.identity) as GameObject;
+				GameObject healthpointImageFull = Instantiate (healthNodeImageFullPrefab, new Vector3 (i * healthNodeOffset, yOffset, 0), Quaternion.identity) as GameObject;
 
 				healthpointImageEmpty.transform.SetParent (healthbarCanvas.transform);
 				healthpointImageFull.transform.SetParent (healthbarCanvas.transform);
@@ -52,6 +68,10 @@ public class HealthBar : MonoBehaviour
 
 				healthNodes [i] = healthNode;
 			}
+		} 
+		else 
+		{
+			Debug.Log ("HealthBar prefab(s) not assigned in the editor");
 		}
 	}
 	
