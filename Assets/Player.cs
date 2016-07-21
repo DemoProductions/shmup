@@ -3,6 +3,14 @@
 public class Player : MonoBehaviour
 {
 
+	public enum PlayerEnum
+	{
+		player1,
+		player2
+	};
+
+	public PlayerEnum playerNumber;
+
 	public int speed = 100;
 	public float xvelocity;
 	public float yvelocity;

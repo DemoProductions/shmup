@@ -40,18 +40,18 @@ public class HealthBar : MonoBehaviour
 			healthNodeCursor = healthNodes.Length - 1;
 
 			// location of healthNodes depend on the playerNumber set in Flag
-			Flag flag = this.gameObject.GetComponent<Flag> ();
-			if (flag.playerNumber == Flag.PlayerEnum.player1)
+			Player player = this.gameObject.GetComponent<Player> ();
+			if (player.playerNumber == Player.PlayerEnum.player1)
 			{
 				yOffset = player1YOffset;
 			} 
-			else if (flag.playerNumber == Flag.PlayerEnum.player2)
+			else if (player.playerNumber == Player.PlayerEnum.player2)
 			{
 				yOffset = player2YOffset;
 			}
 
 			// instantiate healthpoint images and add them to the healthNodes array
-			for (int i = 0; i < health.hp; i++) 
+			for (int i = 0; i < health.hp; i++)
 			{
 				GameObject healthpointImageEmpty = Instantiate (healthNodeImageEmptyPrefab, new Vector3 (i * healthNodeOffset, yOffset, 0), Quaternion.identity) as GameObject;
 				GameObject healthpointImageFull = Instantiate (healthNodeImageFullPrefab, new Vector3 (i * healthNodeOffset, yOffset, 0), Quaternion.identity) as GameObject;
