@@ -17,6 +17,7 @@ public class LevelControllerEditor : Editor
 	static string backgroundsFolder = JoinPaths (resourceFolder, LevelController.backgroundsFolder);
 	static string middlegroundsFolder = JoinPaths (resourceFolder, LevelController.middlegroundsFolder);
 	static string foregroundsFolder = JoinPaths (resourceFolder, LevelController.foregroundsFolder);
+	static string playersFolder = JoinPaths (resourceFolder, LevelController.playersFolder);
 	static string wavesFolder = JoinPaths (resourceFolder, LevelController.wavesFolder);
 
 	static List<bool> levelFoldBools;
@@ -38,6 +39,7 @@ public class LevelControllerEditor : Editor
 		string[] backgrounds = GetPrefabs (backgroundsFolder);
 		string[] middlegrounds = GetPrefabs (middlegroundsFolder);
 		string[] foregrounds = GetPrefabs (foregroundsFolder);
+		string[] players = GetPrefabs (playersFolder);
 		string[] waves = GetPrefabs (wavesFolder);
 
 		serializedObject.Update ();
@@ -82,6 +84,11 @@ public class LevelControllerEditor : Editor
 					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("middleground"), middlegrounds, "Middleground");
 					// foregrounds
 					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("foreground"), foregrounds, "Foreground");
+					// player1
+					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player1"), players, "Player 1");
+					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player1Spawn"));
+					// player2
+					//ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player2"), players, "Player2");
 					// waves
 					EditorGUI.indentLevel += 1;
 					SerializedProperty wavelist = levels.GetArrayElementAtIndex (i).FindPropertyRelative ("waves");

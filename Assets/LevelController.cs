@@ -13,8 +13,12 @@ public class LevelController : MonoBehaviour
 		public string background;
 		public string middleground;
 		public string foreground;
+		public string player1;
+		public Vector3 player1Spawn;
+		//public string player2;
+		//public Vector3 player2Spawn;
 		public string[] waves;
-		//		public int boss; // for later
+		//public int boss; // for later
 	}
 
 	public float waveSeparation = 10;
@@ -26,6 +30,7 @@ public class LevelController : MonoBehaviour
 	public static string backgroundsFolder = "Backgrounds";
 	public static string middlegroundsFolder = "Middlegrounds";
 	public static string foregroundsFolder = "Foregrounds";
+	public static string playersFolder = "Players";
 	public static string wavesFolder = "Waves";
 
 	// Use this for initialization
@@ -63,7 +68,11 @@ public class LevelController : MonoBehaviour
 		GameObject foreground = Resources.Load (JoinPaths (foregroundsFolder, level.foreground)) as GameObject;
 		if (foreground)
 		{
-			Instantiate (foreground, Vector3.zero, Quaternion.identity);
+			GameObject instantiatedForeground = Instantiate (foreground, Vector3.zero, Quaternion.identity) as GameObject;
+
+			GameObject player1 = Resources.Load (JoinPaths (playersFolder, level.player1)) as GameObject;
+			GameObject instantiatedPlayer = Instantiate (player1, level.player1Spawn, Quaternion.identity) as GameObject;
+			instantiatedPlayer.transform.SetParent (instantiatedForeground.transform);
 		}
 
 		// instantiate waves

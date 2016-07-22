@@ -16,7 +16,7 @@ public class HealthBar : MonoBehaviour
 
 	public int healthNodeOffset = 25; // amount of space between health nodes
 
-	public GameObject healthbarCanvasPrefab;
+	public GameObject healthBarCanvasPrefab;
 
 	// healthNode images are anchored to some position in the screen
 	public GameObject healthNodeImageFullPrefab;
@@ -30,9 +30,9 @@ public class HealthBar : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		if (healthbarCanvasPrefab && healthNodeImageFullPrefab && healthNodeImageEmptyPrefab) 
+		if (healthBarCanvasPrefab && healthNodeImageFullPrefab && healthNodeImageEmptyPrefab) 
 		{
-			healthbarCanvas = Instantiate (healthbarCanvasPrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
+			healthbarCanvas = Instantiate (healthBarCanvasPrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
 
 			// initialize healthNodes array and healthpointCursor
 			Health health = gameObject.GetComponent<Health> ();
@@ -80,23 +80,26 @@ public class HealthBar : MonoBehaviour
 	{
 		Health health = gameObject.GetComponent<Health> ();
 
-		// healthpointsCursor to match the player's health
-		if (healthNodeCursor > health.hp - 1)
+		if (healthBarCanvasPrefab && healthNodeImageFullPrefab && healthNodeImageEmptyPrefab)
 		{
-			while (healthNodeCursor != health.hp - 1)
+			// healthpointsCursor to match the player's health
+			if (healthNodeCursor > health.hp - 1)
 			{
-				healthNodes [healthNodeCursor].healthNodeImageEmpty.SetActive (true);
-				healthNodes [healthNodeCursor].healthNodeImageFull.SetActive (false);
-				healthNodeCursor--;
-			}
-		}
-		else if (healthNodeCursor < health.hp - 1)
-		{
-			while (healthNodeCursor != health.hp - 1)
+				while (healthNodeCursor != health.hp - 1)
+				{
+					healthNodes [healthNodeCursor].healthNodeImageEmpty.SetActive (true);
+					healthNodes [healthNodeCursor].healthNodeImageFull.SetActive (false);
+					healthNodeCursor--;
+				}
+			} 
+			else if (healthNodeCursor < health.hp - 1)
 			{
-				healthNodes [healthNodeCursor + 1].healthNodeImageFull.SetActive (true);
-				healthNodes [healthNodeCursor + 1].healthNodeImageEmpty.SetActive (false);
-				healthNodeCursor++;
+				while (healthNodeCursor != health.hp - 1)
+				{
+					healthNodes [healthNodeCursor + 1].healthNodeImageFull.SetActive (true);
+					healthNodes [healthNodeCursor + 1].healthNodeImageEmpty.SetActive (false);
+					healthNodeCursor++;
+				}
 			}
 		}
 	}
