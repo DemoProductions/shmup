@@ -17,6 +17,7 @@ public class LevelController : MonoBehaviour
 		public Vector3 player1Spawn;
 		//public string player2;
 		//public Vector3 player2Spawn;
+		public int numWaves;
 		public string[] waves;
 		//public int boss; // for later
 	}
@@ -71,14 +72,15 @@ public class LevelController : MonoBehaviour
 			GameObject instantiatedForeground = Instantiate (foreground, Vector3.zero, Quaternion.identity) as GameObject;
 
 			GameObject player1 = Resources.Load (JoinPaths (playersFolder, level.player1)) as GameObject;
-			GameObject instantiatedPlayer = Instantiate (player1, level.player1Spawn, Quaternion.identity) as GameObject;
-			instantiatedPlayer.transform.SetParent (instantiatedForeground.transform);
+			GameObject instantiatedPlayer1 = Instantiate (player1, level.player1Spawn, Quaternion.identity) as GameObject;
+			instantiatedPlayer1.transform.SetParent (instantiatedForeground.transform);
 		}
 
 		// instantiate waves
-		for (int i = 0; i < level.waves.Length; i++)
+		for (int i = 0; i < level.numWaves; i++)
 		{
-			GameObject wave = Resources.Load (JoinPaths (wavesFolder, level.waves [i])) as GameObject;
+			int r = UnityEngine.Random.Range (0, level.waves.Length);
+			GameObject wave = Resources.Load (JoinPaths (wavesFolder, level.waves [r])) as GameObject;
 			if (wave)
 			{
 				Instantiate (wave, new Vector3 (waveSeparation * (i + 1), 0), Quaternion.identity);
