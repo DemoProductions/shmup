@@ -90,6 +90,7 @@ public class LevelControllerEditor : Editor
 					// player2
 					//ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player2"), players, "Player2");
 					// waves
+					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("numWaves"));
 					EditorGUI.indentLevel += 1;
 					SerializedProperty wavelist = levels.GetArrayElementAtIndex (i).FindPropertyRelative ("waves");
 					EditorGUILayout.PropertyField (wavelist);
