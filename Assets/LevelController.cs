@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Linq;
 using System;
 
 public class LevelController : MonoBehaviour
@@ -18,6 +16,7 @@ public class LevelController : MonoBehaviour
 		//public string player2;
 		//public Vector3 player2Spawn;
 		public int numWaves;
+		public int maxTimesAWaveCanInstantiate;
 		public string[] waves;
 		//public int boss; // for later
 	}
@@ -76,14 +75,31 @@ public class LevelController : MonoBehaviour
 			instantiatedPlayer1.transform.SetParent (instantiatedForeground.transform);
 		}
 
-		// instantiate waves
-		for (int i = 0; i < level.numWaves; i++)
+		// instantiate waves randomly
+		if (level.numWaves / level.maxTimesAWaveCanInstantiate > level.waves.Length)
 		{
+			Debug.Log("Numer of waves and max times a wave can instantiate do not fit with the length of wave types that can be in this level");
+		}
+
+		int [] waveCount = new int [level.numWaves]; // keep track of what r initially lands on to make sure that waves can only be instantiated the maxTimesAWaveCanInstantiate
+		for (int i = 0; i < level.numWaves; i++)
+		{            
 			int r = UnityEngine.Random.Range (0, level.waves.Length);
+
+			// if r lands on a wave that has been instantiated the max number of times, increment r until a wave that can be instantiated is found
+			while (waveCount [r] > level.maxTimesAWaveCanInstantiate)
+			{
+				if (r == level.numWaves - 1)
+					r = 0;
+				else
+					r++;
+			}
+
 			GameObject wave = Resources.Load (JoinPaths (wavesFolder, level.waves [r])) as GameObject;
 			if (wave)
 			{
 				Instantiate (wave, new Vector3 (waveSeparation * (i + 1), 0), Quaternion.identity);
+				waveCount [r]++;
 			}
 		}
 	}
