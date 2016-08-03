@@ -91,6 +91,7 @@ public class LevelControllerEditor : Editor
 					//ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player2"), players, "Player2");
 					// waves
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("numWaves"));
+					EditorGUILayout.PropertyField(levels.GetArrayElementAtIndex (i).FindPropertyRelative ("maxTimesAWaveCanInstantiate"));
 					EditorGUI.indentLevel += 1;
 					SerializedProperty wavelist = levels.GetArrayElementAtIndex (i).FindPropertyRelative ("waves");
 					EditorGUILayout.PropertyField (wavelist);
