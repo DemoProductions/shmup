@@ -50,12 +50,14 @@ public class LevelControllerEditor : Editor
 		// levels
 		SerializedProperty levels = serializedObject.FindProperty ("levels");
 		EditorGUILayout.PropertyField (levels);
-		if (levels.isExpanded) {
+		if (levels.isExpanded)
+		{
 			EditorGUILayout.PropertyField (levels.FindPropertyRelative ("Array.size"));
 
 			// for each level...
 			EditorGUI.indentLevel += 1;
-			for (int i = 0; i < levels.arraySize; i++) {
+			for (int i = 0; i < levels.arraySize; i++)
+			{
 				GUIContent label = new GUIContent ();
 				string name = levels.GetArrayElementAtIndex (i).FindPropertyRelative ("name").stringValue;
 				label.text = name.Length != 0 ? name : "Level " + i;
@@ -63,7 +65,8 @@ public class LevelControllerEditor : Editor
 				// make sure there is enough bools in the list for the foldout
 				if (levelFoldBools == null)
 					levelFoldBools = new List<bool> ();
-				while (levelFoldBools.Count () <= i) {
+				while (levelFoldBools.Count () <= i)
+				{
 					levelFoldBools.Add (false);
 				}
 
@@ -72,7 +75,8 @@ public class LevelControllerEditor : Editor
 				Rect foldRect = GUILayoutUtility.GetLastRect ();
 				levelFoldBools [i] = EditorGUI.Foldout (foldRect, levelFoldBools [i], label, true);
 
-				if (levelFoldBools [i]) {
+				if (levelFoldBools [i])
+				{
 					// define level fields
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("name"));
 					// backgrounds
@@ -92,11 +96,13 @@ public class LevelControllerEditor : Editor
 					EditorGUI.indentLevel += 1;
 					SerializedProperty wavelist = levels.GetArrayElementAtIndex (i).FindPropertyRelative ("waves");
 					EditorGUILayout.PropertyField (wavelist);
-					if (wavelist.isExpanded) {
+					if (wavelist.isExpanded)
+					{
 						EditorGUILayout.PropertyField (wavelist.FindPropertyRelative ("Array.size"));
 
 						// for each wave...
-						for (int j = 0; j < wavelist.arraySize; j++) {
+						for (int j = 0; j < wavelist.arraySize; j++)
+						{
 							GUIContent wavelabel = new GUIContent ();
 							wavelabel.text = "Wave " + j;
 
@@ -133,7 +139,8 @@ public class LevelControllerEditor : Editor
 		Handles.DrawSolidRectangleWithOutline (cameraVerts, Color.clear, Color.white);
 
 		// draw waves
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++)
+		{
 			// camera square
 			left = Camera.main.ViewportToWorldPoint (Vector3.one).x + (levelController.waveSeparation * i) + (i == 0 ? .1f : 0);
 			right = Camera.main.ViewportToWorldPoint (Vector3.one * 2).x + (levelController.waveSeparation * i);

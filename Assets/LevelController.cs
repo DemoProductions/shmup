@@ -51,20 +51,23 @@ public class LevelController : MonoBehaviour
 
 		// instantiate background
 		GameObject background = Resources.Load (JoinPaths (backgroundsFolder, level.background)) as GameObject;
-		if (background) {
+		if (background)
+		{
 			Instantiate (background, Vector3.zero, Quaternion.identity);
 		}
 
 		// instantiate middleground
 		GameObject middleground = Resources.Load (JoinPaths (middlegroundsFolder, level.middleground)) as GameObject;
-		if (middleground) {
+		if (middleground)
+		{
 			Instantiate (middleground, Vector3.zero, Quaternion.identity);
 		}
 
 		// instantiate foreground
 		// instantiate player ? (will need to add this probably, though it will grab this from player choice...)
 		GameObject foreground = Resources.Load (JoinPaths (foregroundsFolder, level.foreground)) as GameObject;
-		if (foreground) {
+		if (foreground)
+		{
 			GameObject instantiatedForeground = Instantiate (foreground, Vector3.zero, Quaternion.identity) as GameObject;
 
 			GameObject player1 = Resources.Load (JoinPaths (playersFolder, level.player1)) as GameObject;
@@ -73,16 +76,19 @@ public class LevelController : MonoBehaviour
 		}
 
 		// instantiate waves randomly
-		if (level.numWaves / level.maxTimesAWaveCanInstantiate > level.waves.Length) {
+		if (level.numWaves / level.maxTimesAWaveCanInstantiate > level.waves.Length)
+		{
 			Debug.Log ("Numer of waves and max times a wave can instantiate do not fit with the length of wave types that can be in this level");
 		}
 
 		int[] waveCount = new int [level.numWaves]; // keep track of what r initially lands on to make sure that waves can only be instantiated the maxTimesAWaveCanInstantiate
-		for (int i = 0; i < level.numWaves; i++) {
+		for (int i = 0; i < level.numWaves; i++)
+		{
 			int r = UnityEngine.Random.Range (0, level.waves.Length);
 
 			// if r lands on a wave that has been instantiated the max number of times, increment r until a wave that can be instantiated is found
-			while (waveCount [r] > level.maxTimesAWaveCanInstantiate) {
+			while (waveCount [r] > level.maxTimesAWaveCanInstantiate)
+			{
 				if (r == level.numWaves - 1)
 					r = 0;
 				else
@@ -90,7 +96,8 @@ public class LevelController : MonoBehaviour
 			}
 
 			GameObject wave = Resources.Load (JoinPaths (wavesFolder, level.waves [r])) as GameObject;
-			if (wave) {
+			if (wave)
+			{
 				Instantiate (wave, (Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, 0)) * 2) + new Vector3 (waveSeparation * i, 0), Quaternion.identity);
 				waveCount [r]++;
 			}
