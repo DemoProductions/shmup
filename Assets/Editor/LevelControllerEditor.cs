@@ -63,8 +63,7 @@ public class LevelControllerEditor : Editor
 				label.text = name.Length != 0 ? name : "Level " + i;
 
 				// make sure there is enough bools in the list for the foldout
-				if (levelFoldBools == null)
-					levelFoldBools = new List<bool> ();
+				if (levelFoldBools == null) levelFoldBools = new List<bool> ();
 				while (levelFoldBools.Count () <= i)
 				{
 					levelFoldBools.Add (false);
