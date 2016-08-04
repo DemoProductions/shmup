@@ -50,22 +50,20 @@ public class LevelControllerEditor : Editor
 		// levels
 		SerializedProperty levels = serializedObject.FindProperty ("levels");
 		EditorGUILayout.PropertyField (levels);
-		if (levels.isExpanded)
-		{
+		if (levels.isExpanded) {
 			EditorGUILayout.PropertyField (levels.FindPropertyRelative ("Array.size"));
 
 			// for each level...
 			EditorGUI.indentLevel += 1;
-			for (int i = 0; i < levels.arraySize; i++)
-			{
+			for (int i = 0; i < levels.arraySize; i++) {
 				GUIContent label = new GUIContent ();
 				string name = levels.GetArrayElementAtIndex (i).FindPropertyRelative ("name").stringValue;
 				label.text = name.Length != 0 ? name : "Level " + i;
 
 				// make sure there is enough bools in the list for the foldout
-				if (levelFoldBools == null) levelFoldBools = new List<bool> ();
-				while (levelFoldBools.Count () <= i)
-				{
+				if (levelFoldBools == null)
+					levelFoldBools = new List<bool> ();
+				while (levelFoldBools.Count () <= i) {
 					levelFoldBools.Add (false);
 				}
 
@@ -74,8 +72,7 @@ public class LevelControllerEditor : Editor
 				Rect foldRect = GUILayoutUtility.GetLastRect ();
 				levelFoldBools [i] = EditorGUI.Foldout (foldRect, levelFoldBools [i], label, true);
 
-				if (levelFoldBools [i])
-				{
+				if (levelFoldBools [i]) {
 					// define level fields
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("name"));
 					// backgrounds
@@ -91,17 +88,15 @@ public class LevelControllerEditor : Editor
 					//ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player2"), players, "Player2");
 					// waves
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("numWaves"));
-					EditorGUILayout.PropertyField(levels.GetArrayElementAtIndex (i).FindPropertyRelative ("maxTimesAWaveCanInstantiate"));
+					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("maxTimesAWaveCanInstantiate"));
 					EditorGUI.indentLevel += 1;
 					SerializedProperty wavelist = levels.GetArrayElementAtIndex (i).FindPropertyRelative ("waves");
 					EditorGUILayout.PropertyField (wavelist);
-					if (wavelist.isExpanded)
-					{
+					if (wavelist.isExpanded) {
 						EditorGUILayout.PropertyField (wavelist.FindPropertyRelative ("Array.size"));
 
 						// for each wave...
-						for (int j = 0; j < wavelist.arraySize; j++)
-						{
+						for (int j = 0; j < wavelist.arraySize; j++) {
 							GUIContent wavelabel = new GUIContent ();
 							wavelabel.text = "Wave " + j;
 
@@ -121,21 +116,37 @@ public class LevelControllerEditor : Editor
 	public void OnSceneGUI ()
 	{
 		LevelController levelController = target as LevelController;
-		for (int i = 0; i < 3; i++)
-		{
-			// camera square
-			var left = Camera.main.ViewportToWorldPoint (Vector3.zero).x + (levelController.waveSeparation * i);
-			var right = Camera.main.ViewportToWorldPoint (Vector3.one).x + (levelController.waveSeparation * i);
-			var top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
-			var bottom = Camera.main.ViewportToWorldPoint (Vector3.one).y;
 
-			Vector3[] cameraVerts = {
+		// draw camera
+
+		var left = Camera.main.ViewportToWorldPoint (Vector3.zero).x;
+		var right = Camera.main.ViewportToWorldPoint (Vector3.one).x;
+		var top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
+		var bottom = Camera.main.ViewportToWorldPoint (Vector3.one).y;
+
+		Vector3[] cameraVerts = {
+			new Vector3 (left, top, 0),
+			new Vector3 (right, top, 0),
+			new Vector3 (right, bottom, 0),
+			new Vector3 (left, bottom, 0)
+		};
+		Handles.DrawSolidRectangleWithOutline (cameraVerts, Color.clear, Color.white);
+
+		// draw waves
+		for (int i = 0; i < 3; i++) {
+			// camera square
+			left = Camera.main.ViewportToWorldPoint (Vector3.one).x + (levelController.waveSeparation * i) + (i == 0 ? .1f : 0);
+			right = Camera.main.ViewportToWorldPoint (Vector3.one * 2).x + (levelController.waveSeparation * i);
+			top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
+			bottom = Camera.main.ViewportToWorldPoint (Vector3.one).y;
+
+			Vector3[] waveVerts = {
 				new Vector3 (left, top, 0),
 				new Vector3 (right, top, 0),
 				new Vector3 (right, bottom, 0),
 				new Vector3 (left, bottom, 0)
 			};
-			Handles.DrawSolidRectangleWithOutline (cameraVerts, Color.clear, Color.magenta);
+			Handles.DrawSolidRectangleWithOutline (waveVerts, Color.clear, Color.magenta);
 		}
 	}
 }
