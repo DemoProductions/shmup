@@ -91,7 +91,7 @@ public class LevelControllerEditor : Editor
 					//ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player2"), players, "Player2");
 					// waves
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("numWaves"));
-					EditorGUILayout.PropertyField(levels.GetArrayElementAtIndex (i).FindPropertyRelative ("maxTimesAWaveCanInstantiate"));
+					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("maxTimesAWaveCanInstantiate"));
 					EditorGUI.indentLevel += 1;
 					SerializedProperty wavelist = levels.GetArrayElementAtIndex (i).FindPropertyRelative ("waves");
 					EditorGUILayout.PropertyField (wavelist);
@@ -121,21 +121,38 @@ public class LevelControllerEditor : Editor
 	public void OnSceneGUI ()
 	{
 		LevelController levelController = target as LevelController;
+
+		// draw camera
+
+		var left = Camera.main.ViewportToWorldPoint (Vector3.zero).x;
+		var right = Camera.main.ViewportToWorldPoint (Vector3.one).x;
+		var top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
+		var bottom = Camera.main.ViewportToWorldPoint (Vector3.one).y;
+
+		Vector3[] cameraVerts = {
+			new Vector3 (left, top, 0),
+			new Vector3 (right, top, 0),
+			new Vector3 (right, bottom, 0),
+			new Vector3 (left, bottom, 0)
+		};
+		Handles.DrawSolidRectangleWithOutline (cameraVerts, Color.clear, Color.white);
+
+		// draw waves
 		for (int i = 0; i < 3; i++)
 		{
 			// camera square
-			var left = Camera.main.ViewportToWorldPoint (Vector3.zero).x + (levelController.waveSeparation * i);
-			var right = Camera.main.ViewportToWorldPoint (Vector3.one).x + (levelController.waveSeparation * i);
-			var top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
-			var bottom = Camera.main.ViewportToWorldPoint (Vector3.one).y;
+			left = Camera.main.ViewportToWorldPoint (Vector3.one).x + (levelController.waveSeparation * i) + (i == 0 ? .1f : 0);
+			right = Camera.main.ViewportToWorldPoint (Vector3.one * 2).x + (levelController.waveSeparation * i);
+			top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
+			bottom = Camera.main.ViewportToWorldPoint (Vector3.one).y;
 
-			Vector3[] cameraVerts = {
+			Vector3[] waveVerts = {
 				new Vector3 (left, top, 0),
 				new Vector3 (right, top, 0),
 				new Vector3 (right, bottom, 0),
 				new Vector3 (left, bottom, 0)
 			};
-			Handles.DrawSolidRectangleWithOutline (cameraVerts, Color.clear, Color.magenta);
+			Handles.DrawSolidRectangleWithOutline (waveVerts, Color.clear, Color.magenta);
 		}
 	}
 }

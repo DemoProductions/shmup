@@ -78,12 +78,12 @@ public class LevelController : MonoBehaviour
 		// instantiate waves randomly
 		if (level.numWaves / level.maxTimesAWaveCanInstantiate > level.waves.Length)
 		{
-			Debug.Log("Numer of waves and max times a wave can instantiate do not fit with the length of wave types that can be in this level");
+			Debug.Log ("Numer of waves and max times a wave can instantiate do not fit with the length of wave types that can be in this level");
 		}
 
-		int [] waveCount = new int [level.numWaves]; // keep track of what r initially lands on to make sure that waves can only be instantiated the maxTimesAWaveCanInstantiate
+		int[] waveCount = new int [level.numWaves]; // keep track of what r initially lands on to make sure that waves can only be instantiated the maxTimesAWaveCanInstantiate
 		for (int i = 0; i < level.numWaves; i++)
-		{            
+		{
 			int r = UnityEngine.Random.Range (0, level.waves.Length);
 
 			// if r lands on a wave that has been instantiated the max number of times, increment r until a wave that can be instantiated is found
@@ -98,7 +98,7 @@ public class LevelController : MonoBehaviour
 			GameObject wave = Resources.Load (JoinPaths (wavesFolder, level.waves [r])) as GameObject;
 			if (wave)
 			{
-				Instantiate (wave, new Vector3 (waveSeparation * (i + 1), 0), Quaternion.identity);
+				Instantiate (wave, (Camera.main.ViewportToWorldPoint (new Vector3 (1, 0, 0)) * 2) + new Vector3 (waveSeparation * i, 0), Quaternion.identity);
 				waveCount [r]++;
 			}
 		}
