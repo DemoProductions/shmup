@@ -23,8 +23,9 @@ public class Enemy : MonoBehaviour
 
 		if (weapon)
 		{
-			weapon = Instantiate (weapon, new Vector3 (this.gameObject.transform.position.x, this.gameObject.transform.position.y, 0), Quaternion.identity) as Weapon;
-			weapon.transform.SetParent (this.gameObject.transform);
+			weapon = Instantiate (weapon, new Vector3 (this.transform.position.x, this.transform.position.y, 0), this.transform.rotation) as Weapon;
+			weapon.transform.SetParent (this.transform);
+			weapon.enabled = false;
 		}
 
 		rbody = this.GetComponent<Rigidbody2D> ();
@@ -41,19 +42,18 @@ public class Enemy : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!spawned & spriterenderer.IsVisibleFrom (Camera.main))
+		if (!spawned && spriterenderer.IsVisibleFrom (Camera.main))
 		{
 			Spawn ();
 		}
-		else
-		{
-			if (weapon) weapon.Shoot ();
-		}
+
+		if (weapon) weapon.Shoot ();
 	}
 
 	void Spawn ()
 	{
 		movement.enabled = true;
 		boundingstimeout.enabled = true;
+		weapon.enabled = true;
 	}
 }

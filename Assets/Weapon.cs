@@ -26,7 +26,7 @@ public class Weapon : MonoBehaviour
 
 		if (this.refireTime >= this.refireRate)
 		{
-			GameObject newProjectile = Instantiate (this.projectiles [this.projectileType], this.transform.position + new Vector3 (xvelocity, yvelocity, 0), this.gameObject.transform.parent.transform.rotation) as GameObject;
+			GameObject newProjectile = Instantiate (this.projectiles [this.projectileType], this.transform.position + new Vector3 (xvelocity, yvelocity, 0), this.transform.rotation) as GameObject;
 			newProjectile.GetComponent<Team> ().team = transform.parent.GetComponent<Team> ().team;
 
 			TrackingAI newProjectileTrackingAI = newProjectile.GetComponent<TrackingAI> ();
