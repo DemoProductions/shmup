@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
 	};
 
 	public PlayerEnum playerNumber;
-	 
+
 	public int speed = 100;
 	public float xvelocity;
 	public float yvelocity;
@@ -24,7 +24,8 @@ public class Player : MonoBehaviour
 	{
 		health = this.GetComponent<Health> ();
 
-		if (weapon) {
+		if (weapon)
+		{
 			weapon = Instantiate (weapon, new Vector3 (this.transform.position.x, this.transform.position.y, 0), this.transform.rotation) as Weapon;
 			weapon.transform.SetParent (this.transform);
 		}
@@ -38,7 +39,8 @@ public class Player : MonoBehaviour
 		xvelocity = Input.GetAxis ("Horizontal");
 		yvelocity = Input.GetAxis ("Vertical");
 
-		if (Input.GetAxis ("Fire1") > 0 && weapon) {
+		if (Input.GetAxis ("Fire1") > 0 && weapon)
+		{
 			weapon.Shoot ();
 		}
 	}
