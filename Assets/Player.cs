@@ -6,11 +6,11 @@ public class Player : MonoBehaviour
 	public enum PlayerEnum
 	{
 		player1,
-		player2
+		player2,
 	};
 
 	public PlayerEnum playerNumber;
-
+	 
 	public int speed = 100;
 	public float xvelocity;
 	public float yvelocity;
@@ -22,15 +22,14 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		health = gameObject.GetComponent<Health> ();
+		health = this.GetComponent<Health> ();
 
-		if (weapon)
-		{
-			weapon = Instantiate (weapon, new Vector3 (this.gameObject.transform.position.x, this.gameObject.transform.position.y, 0), Quaternion.identity) as Weapon;
-			weapon.transform.SetParent (this.gameObject.transform);
+		if (weapon) {
+			weapon = Instantiate (weapon, new Vector3 (this.transform.position.x, this.transform.position.y, 0), this.transform.rotation) as Weapon;
+			weapon.transform.SetParent (this.transform);
 		}
 
-		rbody = gameObject.GetComponent<Rigidbody2D> ();
+		rbody = this.GetComponent<Rigidbody2D> ();
 	}
 
 	// Update is called once per frame
@@ -39,8 +38,7 @@ public class Player : MonoBehaviour
 		xvelocity = Input.GetAxis ("Horizontal");
 		yvelocity = Input.GetAxis ("Vertical");
 
-		if (Input.GetAxis ("Fire1") > 0 && weapon)
-		{
+		if (Input.GetAxis ("Fire1") > 0 && weapon) {
 			weapon.Shoot ();
 		}
 	}

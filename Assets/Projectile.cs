@@ -4,7 +4,7 @@ public class Projectile : MonoBehaviour
 {
 
 	public int speed = 500;
-	public int damage = 10;
+	public int damage = 1;
 
 	Rigidbody2D rbody;
 	Team team;
@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour
 
 	void FixedUpdate ()
 	{
-		rbody.velocity = this.transform.up * Time.deltaTime * speed;
+		rbody.velocity = this.transform.right * Time.deltaTime * speed;
 	}
 
 	void OnTriggerEnter2D (Collider2D other)
