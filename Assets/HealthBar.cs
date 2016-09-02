@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent (typeof(Health))]
 public class HealthBar : MonoBehaviour
@@ -10,54 +11,42 @@ public class HealthBar : MonoBehaviour
 		public GameObject healthNodeImageFull;
 	}
 
-	// y positions of healthbars depend on the playerNumber
-	public int player1YOffset = 0;
-	public int player2YOffset = -50;
+	public Vector2 pos;
 
-	public int healthNodeOffset = 25; // amount of space between health nodes
-
-	public GameObject healthBarCanvasPrefab;
-
-	// healthNode images are anchored to some position in the screen
 	public GameObject healthNodeImageFullPrefab;
 	public GameObject healthNodeImageEmptyPrefab;
 
-	GameObject healthbarCanvas;
 	HealthNode[] healthNodes;
-	int healthNodeCursor; // keeps track of how much health healthbarCanvas is showing
-	int yOffset; // y position of this healthbar
+
+	int healthNodeCursor;
+	int healthNodeOffset = 25;
 
 	// Use this for initialization
 	void Start ()
 	{
-		if (healthBarCanvasPrefab && healthNodeImageFullPrefab && healthNodeImageEmptyPrefab) 
+		if (healthNodeImageFullPrefab && healthNodeImageEmptyPrefab) 
 		{
-			healthbarCanvas = Instantiate (healthBarCanvasPrefab, new Vector3 (0, 0, 0), Quaternion.identity) as GameObject;
+			// initialize canvas for healthbar
+			GameObject healthBarCanvas = new GameObject ("HealthBarCanvas", typeof (RectTransform));
+			healthBarCanvas.GetComponent<RectTransform> ().position = Vector3.zero;
+			healthBarCanvas.AddComponent<Canvas> ();
+			healthBarCanvas.GetComponent<Canvas> ().renderMode = RenderMode.ScreenSpaceOverlay;
+			healthBarCanvas.AddComponent<CanvasScaler> ();
+			healthBarCanvas.AddComponent<GraphicRaycaster> ();
 
 			// initialize healthNodes array and healthpointCursor
-			Health health = gameObject.GetComponent<Health> ();
-			healthNodes = new HealthNode[health.hp];
+			Health health = GetComponent<Health> ();
+			healthNodes = new HealthNode [health.hp];
 			healthNodeCursor = healthNodes.Length - 1;
-
-			// location of healthNodes depend on the playerNumber set in Flag
-			Player player = this.gameObject.GetComponent<Player> ();
-			if (player.playerNumber == Player.PlayerEnum.player1)
-			{
-				yOffset = player1YOffset;
-			} 
-			else if (player.playerNumber == Player.PlayerEnum.player2)
-			{
-				yOffset = player2YOffset;
-			}
 
 			// instantiate healthpoint images and add them to the healthNodes array
 			for (int i = 0; i < health.hp; i++)
 			{
-				GameObject healthpointImageEmpty = Instantiate (healthNodeImageEmptyPrefab, new Vector3 (i * healthNodeOffset, yOffset, 0), Quaternion.identity) as GameObject;
-				GameObject healthpointImageFull = Instantiate (healthNodeImageFullPrefab, new Vector3 (i * healthNodeOffset, yOffset, 0), Quaternion.identity) as GameObject;
+				GameObject healthpointImageEmpty = Instantiate (healthNodeImageEmptyPrefab, new Vector3 (pos.x + i * healthNodeOffset, pos.y, 0), Quaternion.identity) as GameObject;
+				GameObject healthpointImageFull = Instantiate (healthNodeImageFullPrefab, new Vector3 (pos.x + i * healthNodeOffset, pos.y, 0), Quaternion.identity) as GameObject;
 
-				healthpointImageEmpty.transform.SetParent (healthbarCanvas.transform);
-				healthpointImageFull.transform.SetParent (healthbarCanvas.transform);
+				healthpointImageEmpty.transform.SetParent (healthBarCanvas.transform);
+				healthpointImageFull.transform.SetParent (healthBarCanvas.transform);
 
 				// initialize healthNodes to have full activated and empty deactivated
 				HealthNode healthNode = new HealthNode ();
@@ -78,9 +67,9 @@ public class HealthBar : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		Health health = gameObject.GetComponent<Health> ();
+		Health health = GetComponent<Health> ();
 
-		if (healthBarCanvasPrefab && healthNodeImageFullPrefab && healthNodeImageEmptyPrefab)
+		if (healthNodeImageFullPrefab && healthNodeImageEmptyPrefab)
 		{
 			// healthpointsCursor to match the player's health
 			if (healthNodeCursor > health.hp - 1)
