@@ -8,9 +8,15 @@ public class HealthBarEditor : Editor
 
 	const string healthBarLabel = "HealthBar";
 
+	bool snap = true;
+	float snapTo = .5f;
+
 	public override void OnInspectorGUI ()
 	{
 		serializedObject.Update ();
+
+		snap = EditorGUILayout.Toggle("Snap", snap);
+		snapTo = EditorGUILayout.FloatField("Snap To", snapTo);
 
 		EditorGUILayout.PropertyField (serializedObject.FindProperty ("pos"));
 		EditorGUILayout.PropertyField (serializedObject.FindProperty ("healthNodeImageFullPrefab"));
@@ -50,10 +56,31 @@ public class HealthBarEditor : Editor
 		int numHealthNodes = healthBar.GetComponent<Health> ().hp;
 		for (int i = 0; i < numHealthNodes; i++)
 		{
-			Handles.DrawSolidRectangleWithOutline(new Rect((x - width / 2) + healthBar.pos.x + (i * healthBar.healthNodeOffset), y - height / 2, width, height), Color.red, Color.gray);
+			Handles.DrawSolidRectangleWithOutline (new Rect ((x - width / 2) + healthBar.pos.x + (i * healthBar.healthNodeOffset), y - height / 2, width, height), Color.red, Color.gray);
 		}
 
 		// label healthbar
-		Handles.Label(new Vector3(x + healthBar.pos.x, y - height / 2), healthBarLabel, style);
+		Handles.Label (new Vector3 (x + healthBar.pos.x, y - height / 2), healthBarLabel, style);
+
+		// draw handle for healthbar
+		EditorGUI.BeginChangeCheck ();
+
+		Quaternion rotation = Quaternion.identity;
+
+		Vector3 position = Handles.PositionHandle (new Vector3 (x + healthBar.pos.x, y, 0), rotation);
+
+		// snap check
+		if (snap)
+		{   //round(X / N)*N
+			position.x = (float)System.Math.Round (position.x / snapTo) * snapTo;
+			position.y = (float)System.Math.Round (position.y / snapTo) * snapTo;
+		}
+
+		if (EditorGUI.EndChangeCheck ())
+		{
+			Undo.RecordObject (healthBar, "Moved healthbar");
+			healthBar.pos.x = (position.x - healthBar.pos.x);
+			healthBar.pos.y = (position.y);
+		}
 	}
 }
