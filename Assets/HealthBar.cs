@@ -17,9 +17,13 @@ public class HealthBar : MonoBehaviour
 	public GameObject healthNodeImageEmptyPrefab;
 
 	HealthNode[] healthNodes;
-
 	int healthNodeCursor;
-	float healthNodeOffset = 1.5f;
+
+	const string healthBarCanvasName = "HealthBarCanvas";
+	const string mainCameraTag = "MainCamera";
+
+	// not available in the editor
+	public int healthNodeOffset = 2;
 
 	// Use this for initialization
 	void Start ()
@@ -27,11 +31,11 @@ public class HealthBar : MonoBehaviour
 		if (healthNodeImageFullPrefab && healthNodeImageEmptyPrefab) 
 		{
 			// initialize canvas for healthbar
-			GameObject healthBarCanvas = new GameObject ("HealthBarCanvas", typeof (RectTransform));
+			GameObject healthBarCanvas = new GameObject (healthBarCanvasName, typeof (RectTransform));
 			healthBarCanvas.GetComponent<RectTransform> ().position = Vector3.zero;
 			healthBarCanvas.AddComponent<Canvas> ();
 			healthBarCanvas.GetComponent<Canvas> ().renderMode = RenderMode.ScreenSpaceCamera;
-			healthBarCanvas.GetComponent<Canvas> ().worldCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
+			healthBarCanvas.GetComponent<Canvas> ().worldCamera = GameObject.FindGameObjectWithTag (mainCameraTag).GetComponent<Camera> ();
 			healthBarCanvas.AddComponent<CanvasScaler> ();
 			healthBarCanvas.AddComponent<GraphicRaycaster> ();
 

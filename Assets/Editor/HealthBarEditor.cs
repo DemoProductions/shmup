@@ -6,6 +6,8 @@ using UnityEditor;
 public class HealthBarEditor : Editor
 {
 
+	const string healthBarLabel = "HealthBar";
+
 	public override void OnInspectorGUI ()
 	{
 		serializedObject.Update ();
@@ -45,13 +47,13 @@ public class HealthBarEditor : Editor
 		}
 
 		// draw sample healthbar squares
-		int numSampleHealthNodes = 3;
-		for (int i = 0; i < numSampleHealthNodes; i++)
+		int numHealthNodes = healthBar.GetComponent<Health> ().hp;
+		for (int i = 0; i < numHealthNodes; i++)
 		{
-			Handles.DrawSolidRectangleWithOutline(new Rect((x - width / 2) + healthBar.pos.x + (i * 1.5f), y - height / 2, width, height), Color.red, Color.gray);
+			Handles.DrawSolidRectangleWithOutline(new Rect((x - width / 2) + healthBar.pos.x + (i * healthBar.healthNodeOffset), y - height / 2, width, height), Color.red, Color.gray);
 		}
 
 		// label healthbar
-		Handles.Label(new Vector3(x + healthBar.pos.x, y - height / 2), "HealthBar", style);
+		Handles.Label(new Vector3(x + healthBar.pos.x, y - height / 2), healthBarLabel, style);
 	}
 }
