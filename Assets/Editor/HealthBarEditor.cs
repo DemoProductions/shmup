@@ -15,8 +15,8 @@ public class HealthBarEditor : Editor
 	{
 		serializedObject.Update ();
 
-		snap = EditorGUILayout.Toggle("Snap", snap);
-		snapTo = EditorGUILayout.FloatField("Snap To", snapTo);
+		snap = EditorGUILayout.Toggle ("Snap", snap);
+		snapTo = EditorGUILayout.FloatField ("Snap To", snapTo);
 
 		EditorGUILayout.PropertyField (serializedObject.FindProperty ("pos"));
 		EditorGUILayout.PropertyField (serializedObject.FindProperty ("healthNodeImageFullPrefab"));
@@ -79,7 +79,7 @@ public class HealthBarEditor : Editor
 		if (EditorGUI.EndChangeCheck ())
 		{
 			Undo.RecordObject (healthBar, "Moved healthbar");
-			healthBar.pos.x = (position.x - healthBar.pos.x);
+			healthBar.pos.x = (position.x);
 			healthBar.pos.y = (position.y);
 		}
 	}
