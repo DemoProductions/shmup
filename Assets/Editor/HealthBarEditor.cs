@@ -56,18 +56,18 @@ public class HealthBarEditor : Editor
 		int numHealthNodes = healthBar.GetComponent<Health> ().hp;
 		for (int i = 0; i < numHealthNodes; i++)
 		{
-			Handles.DrawSolidRectangleWithOutline (new Rect ((x - width / 2) + healthBar.pos.x + (i * healthBar.healthNodeOffset), y - height / 2, width, height), Color.red, Color.gray);
+			Handles.DrawSolidRectangleWithOutline (new Rect ((x - width / 2) + (i * healthBar.healthNodeOffset), y - height / 2, width, height), Color.red, Color.gray);
 		}
 
 		// label healthbar
-		Handles.Label (new Vector3 (x + healthBar.pos.x, y - height / 2), healthBarLabel, style);
+		Handles.Label (new Vector3 (x, y - height / 2), healthBarLabel, style);
 
 		// draw handle for healthbar
 		EditorGUI.BeginChangeCheck ();
 
 		Quaternion rotation = Quaternion.identity;
 
-		Vector3 position = Handles.PositionHandle (new Vector3 (x + healthBar.pos.x, y, 0), rotation);
+		Vector3 position = Handles.PositionHandle (new Vector3 (x, y, 0), rotation);
 
 		// snap check
 		if (snap)
