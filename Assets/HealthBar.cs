@@ -22,9 +22,6 @@ public class HealthBar : MonoBehaviour
 	const string healthBarCanvasName = "HealthBarCanvas";
 	const string mainCameraTag = "MainCamera";
 
-	// not available in the editor
-	public int healthNodeOffset = 2;
-
 	// Use this for initialization
 	void Start ()
 	{
@@ -47,8 +44,8 @@ public class HealthBar : MonoBehaviour
 			// instantiate healthpoint images and add them to the healthNodes array
 			for (int i = 0; i < health.hp; i++)
 			{
-				GameObject healthpointImageEmpty = Instantiate (healthNodeImageEmptyPrefab, new Vector3 (pos.x + i * healthNodeOffset, pos.y, 0), Quaternion.identity) as GameObject;
-				GameObject healthpointImageFull = Instantiate (healthNodeImageFullPrefab, new Vector3 (pos.x + i * healthNodeOffset, pos.y, 0), Quaternion.identity) as GameObject;
+				GameObject healthpointImageEmpty = Instantiate (healthNodeImageEmptyPrefab, new Vector3 (pos.x + i, pos.y, 0), Quaternion.identity) as GameObject;
+				GameObject healthpointImageFull = Instantiate (healthNodeImageFullPrefab, new Vector3 (pos.x + i, pos.y, 0), Quaternion.identity) as GameObject;
 
 				healthpointImageEmpty.transform.SetParent (healthBarCanvas.transform);
 				healthpointImageFull.transform.SetParent (healthBarCanvas.transform);
