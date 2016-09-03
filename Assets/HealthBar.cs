@@ -19,7 +19,7 @@ public class HealthBar : MonoBehaviour
 	HealthNode[] healthNodes;
 
 	int healthNodeCursor;
-	int healthNodeOffset = 25;
+	float healthNodeOffset = 1.5f;
 
 	// Use this for initialization
 	void Start ()
@@ -30,7 +30,8 @@ public class HealthBar : MonoBehaviour
 			GameObject healthBarCanvas = new GameObject ("HealthBarCanvas", typeof (RectTransform));
 			healthBarCanvas.GetComponent<RectTransform> ().position = Vector3.zero;
 			healthBarCanvas.AddComponent<Canvas> ();
-			healthBarCanvas.GetComponent<Canvas> ().renderMode = RenderMode.ScreenSpaceOverlay;
+			healthBarCanvas.GetComponent<Canvas> ().renderMode = RenderMode.ScreenSpaceCamera;
+			healthBarCanvas.GetComponent<Canvas> ().worldCamera = GameObject.Find ("Main Camera").GetComponent<Camera> ();
 			healthBarCanvas.AddComponent<CanvasScaler> ();
 			healthBarCanvas.AddComponent<GraphicRaycaster> ();
 
