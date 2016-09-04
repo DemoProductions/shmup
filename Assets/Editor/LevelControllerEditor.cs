@@ -22,6 +22,9 @@ public class LevelControllerEditor : Editor
 
 	static List<bool> levelFoldBools;
 
+	bool snap = true;
+	float snapTo = .5f;
+
 	private string[] GetPrefabs (string folder)
 	{
 		DirectoryInfo dir = new DirectoryInfo (folder);
@@ -43,6 +46,9 @@ public class LevelControllerEditor : Editor
 		string[] waves = GetPrefabs (wavesFolder);
 
 		serializedObject.Update ();
+
+		snap = EditorGUILayout.Toggle ("Snap", snap);
+		snapTo = EditorGUILayout.FloatField ("Snap To", snapTo);
 
 		// wave separation
 		EditorGUILayout.PropertyField (serializedObject.FindProperty ("waveSeparation"));
@@ -122,7 +128,7 @@ public class LevelControllerEditor : Editor
 		LevelController levelController = target as LevelController;
 
 		/* player spawn */
-        
+		
 		// width / height default
 		float width = 1;
 		float height = 1;
@@ -146,6 +152,13 @@ public class LevelControllerEditor : Editor
 
 		Quaternion rotation = Quaternion.identity;
 		Vector3 position = Handles.PositionHandle (new Vector3 (levelController.player1Spawn.x, levelController.player1Spawn.y, 0), rotation);
+
+		// snap check
+		if (snap)
+		{   //round(X / N)*N
+			position.x = (float)System.Math.Round (position.x / snapTo) * snapTo;
+			position.y = (float)System.Math.Round (position.y / snapTo) * snapTo;
+		}
 
 		if (EditorGUI.EndChangeCheck ())
 		{
