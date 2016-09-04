@@ -19,10 +19,10 @@ public class LevelController : MonoBehaviour
 
 	public float waveSeparation = 10;
 
-    public string player1;
-    public Vector3 player1Spawn;
+	public string player1;
+	public Vector3 player1Spawn;
 
-    public Level[] levels;
+	public Level[] levels;
 
 	public static Func<string, string, string> JoinPaths = (str1, str2) => str1 + "/" + str2;
 

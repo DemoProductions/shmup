@@ -121,8 +121,40 @@ public class LevelControllerEditor : Editor
 	{
 		LevelController levelController = target as LevelController;
 
-		// draw camera
+		/* player spawn */
+        
+		// width / height default
+		float width = 1;
+		float height = 1;
 
+		GameObject player1 = Resources.Load (JoinPaths (LevelController.playersFolder, levelController.player1)) as GameObject;
+		SpriteRenderer player1SpriteRenderer = player1.GetComponent<SpriteRenderer> ();
+		if (player1SpriteRenderer)
+		{
+			width = player1SpriteRenderer.sprite.bounds.size.x * player1.transform.localScale.x;
+			height = player1SpriteRenderer.sprite.bounds.size.y * player1.transform.localScale.y;
+		}
+
+		// draw player spawn rectangle
+		Handles.DrawSolidRectangleWithOutline (new Rect ((levelController.player1Spawn.x - width / 2), levelController.player1Spawn.y - height / 2, width, height), Color.red, Color.gray);
+
+		// draw player spawn label
+		Handles.Label (new Vector3 (levelController.player1Spawn.x, levelController.player1Spawn.y - height / 2), "Player 1 spawn");
+
+		// draw player spawn handle
+		EditorGUI.BeginChangeCheck ();
+
+		Quaternion rotation = Quaternion.identity;
+		Vector3 position = Handles.PositionHandle (new Vector3 (levelController.player1Spawn.x, levelController.player1Spawn.y, 0), rotation);
+
+		if (EditorGUI.EndChangeCheck ())
+		{
+			Undo.RecordObject (levelController, "Moved Player1 spawn");
+			levelController.player1Spawn.x = position.x;
+			levelController.player1Spawn.y = position.y;
+		}
+
+		// draw camera
 		var left = Camera.main.ViewportToWorldPoint (Vector3.zero).x;
 		var right = Camera.main.ViewportToWorldPoint (Vector3.one).x;
 		var top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
