@@ -47,6 +47,10 @@ public class LevelControllerEditor : Editor
 		// wave separation
 		EditorGUILayout.PropertyField (serializedObject.FindProperty ("waveSeparation"));
 
+		// player1
+		ListOptions (serializedObject.FindProperty ("player1"), players, "Player 1");
+		EditorGUILayout.PropertyField (serializedObject.FindProperty ("player1Spawn"));
+
 		// levels
 		SerializedProperty levels = serializedObject.FindProperty ("levels");
 		EditorGUILayout.PropertyField (levels);
@@ -84,11 +88,6 @@ public class LevelControllerEditor : Editor
 					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("middleground"), middlegrounds, "Middleground");
 					// foregrounds
 					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("foreground"), foregrounds, "Foreground");
-					// player1
-					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player1"), players, "Player 1");
-					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player1Spawn"));
-					// player2
-					//ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player2"), players, "Player2");
 					// waves
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("numWaves"));
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("maxTimesAWaveCanInstantiate"));

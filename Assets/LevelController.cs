@@ -11,10 +11,6 @@ public class LevelController : MonoBehaviour
 		public string background;
 		public string middleground;
 		public string foreground;
-		public string player1;
-		public Vector3 player1Spawn;
-		//public string player2;
-		//public Vector3 player2Spawn;
 		public int numWaves;
 		public int maxTimesAWaveCanInstantiate;
 		public string[] waves;
@@ -23,7 +19,10 @@ public class LevelController : MonoBehaviour
 
 	public float waveSeparation = 10;
 
-	public Level[] levels;
+    public string player1;
+    public Vector3 player1Spawn;
+
+    public Level[] levels;
 
 	public static Func<string, string, string> JoinPaths = (str1, str2) => str1 + "/" + str2;
 
@@ -70,15 +69,15 @@ public class LevelController : MonoBehaviour
 		{
 			GameObject instantiatedForeground = Instantiate (foreground, Vector3.zero, Quaternion.identity) as GameObject;
 
-			GameObject player1 = Resources.Load (JoinPaths (playersFolder, level.player1)) as GameObject;
-			GameObject instantiatedPlayer1 = Instantiate (player1, level.player1Spawn, Quaternion.identity) as GameObject;
+			GameObject player1GameObject = Resources.Load (JoinPaths (playersFolder, player1)) as GameObject;
+			GameObject instantiatedPlayer1 = Instantiate (player1GameObject, player1Spawn, Quaternion.identity) as GameObject;
 			instantiatedPlayer1.transform.SetParent (instantiatedForeground.transform);
 		}
 
 		// instantiate waves randomly
 		if (level.numWaves / level.maxTimesAWaveCanInstantiate > level.waves.Length)
 		{
-			Debug.Log ("Numer of waves and max times a wave can instantiate do not fit with the length of wave types that can be in this level");
+			Debug.Log ("Number of waves and max times a wave can instantiate do not fit with the length of wave types that can be in this level");
 		}
 
 		int[] waveCount = new int [level.numWaves]; // keep track of what r initially lands on to make sure that waves can only be instantiated the maxTimesAWaveCanInstantiate
