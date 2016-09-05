@@ -45,18 +45,19 @@ public class HealthBarEditor : Editor
 		float height = 1;
 
 		// change width height to match sprite size if possible
+		//  can use either healthNodeImageEmptyPrefab or healthNodeImageFullPrefab since they are the same size
 		Image image = healthBar.healthNodeImageEmptyPrefab.GetComponent<Image> ();
 		if (image)
 		{
-			width = image.sprite.bounds.size.x * healthBar.transform.localScale.x;
-			height = image.sprite.bounds.size.y * healthBar.transform.localScale.y;
+			width = image.sprite.bounds.size.x * healthBar.healthNodeImageEmptyPrefab.transform.localScale.x;
+			height = image.sprite.bounds.size.y * healthBar.healthNodeImageEmptyPrefab.transform.localScale.y;
 		}
 
 		// draw sample healthbar squares
 		int numHealthNodes = healthBar.GetComponent<Health> ().hp;
 		for (int i = 0; i < numHealthNodes; i++)
 		{
-			Handles.DrawSolidRectangleWithOutline (new Rect ((x - width / 2) + i, y - height / 2, width, height), Color.clear, Color.gray);
+			Handles.DrawSolidRectangleWithOutline (new Rect (x + (0.32f * i), y, width, height), Color.clear, Color.gray);
 		}
 
 		// label healthbar
