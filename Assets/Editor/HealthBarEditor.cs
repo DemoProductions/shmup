@@ -41,8 +41,9 @@ public class HealthBarEditor : Editor
 		float y = healthBar.pos.y;
 
 		// width / height default
-		float width = 1;
-		float height = 1;
+		float spriteWHResolution = 0.64f; // 64x64
+		float width = spriteWHResolution;
+		float height = spriteWHResolution;
 
 		// change width height to match sprite size if possible
 		//  can use either healthNodeImageEmptyPrefab or healthNodeImageFullPrefab since they are the same size
@@ -57,7 +58,7 @@ public class HealthBarEditor : Editor
 		int numHealthNodes = healthBar.GetComponent<Health> ().hp;
 		for (int i = 0; i < numHealthNodes; i++)
 		{
-			Handles.DrawSolidRectangleWithOutline (new Rect (x + (0.32f * i), y, width, height), Color.clear, Color.gray);
+			Handles.DrawSolidRectangleWithOutline (new Rect (x + (spriteWHResolution * i), y, width, height), Color.clear, Color.gray);
 		}
 
 		// label healthbar
