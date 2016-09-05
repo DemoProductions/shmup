@@ -56,7 +56,7 @@ public class HealthBarEditor : Editor
 		int numHealthNodes = healthBar.GetComponent<Health> ().hp;
 		for (int i = 0; i < numHealthNodes; i++)
 		{
-			Handles.DrawSolidRectangleWithOutline (new Rect ((x - width / 2) + i, y - height / 2, width, height), Color.red, Color.gray);
+			Handles.DrawSolidRectangleWithOutline (new Rect ((x - width / 2) + i, y - height / 2, width, height), Color.clear, Color.gray);
 		}
 
 		// label healthbar
