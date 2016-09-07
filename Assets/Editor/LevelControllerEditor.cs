@@ -22,6 +22,9 @@ public class LevelControllerEditor : Editor
 
 	static List<bool> levelFoldBools;
 
+	bool snap = true;
+	float snapTo = .5f;
+
 	private string[] GetPrefabs (string folder)
 	{
 		DirectoryInfo dir = new DirectoryInfo (folder);
@@ -44,8 +47,15 @@ public class LevelControllerEditor : Editor
 
 		serializedObject.Update ();
 
+		snap = EditorGUILayout.Toggle ("Snap", snap);
+		snapTo = EditorGUILayout.FloatField ("Snap To", snapTo);
+
 		// wave separation
 		EditorGUILayout.PropertyField (serializedObject.FindProperty ("waveSeparation"));
+
+		// player1
+		ListOptions (serializedObject.FindProperty ("player1"), players, "Player 1");
+		EditorGUILayout.PropertyField (serializedObject.FindProperty ("player1Spawn"));
 
 		// levels
 		SerializedProperty levels = serializedObject.FindProperty ("levels");
@@ -84,11 +94,6 @@ public class LevelControllerEditor : Editor
 					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("middleground"), middlegrounds, "Middleground");
 					// foregrounds
 					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("foreground"), foregrounds, "Foreground");
-					// player1
-					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player1"), players, "Player 1");
-					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player1Spawn"));
-					// player2
-					//ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("player2"), players, "Player2");
 					// waves
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("numWaves"));
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("maxTimesAWaveCanInstantiate"));
@@ -122,8 +127,47 @@ public class LevelControllerEditor : Editor
 	{
 		LevelController levelController = target as LevelController;
 
-		// draw camera
+		/* player spawn */
+		
+		// width / height default
+		float width = 1;
+		float height = 1;
 
+		GameObject player1 = Resources.Load (JoinPaths (LevelController.playersFolder, levelController.player1)) as GameObject;
+		SpriteRenderer player1SpriteRenderer = player1.GetComponent<SpriteRenderer> ();
+		if (player1SpriteRenderer)
+		{
+			width = player1SpriteRenderer.sprite.bounds.size.x * player1.transform.localScale.x;
+			height = player1SpriteRenderer.sprite.bounds.size.y * player1.transform.localScale.y;
+		}
+
+		// draw player spawn rectangle
+		Handles.DrawSolidRectangleWithOutline (new Rect ((levelController.player1Spawn.x - width / 2), levelController.player1Spawn.y - height / 2, width, height), Color.red, Color.gray);
+
+		// draw player spawn label
+		Handles.Label (new Vector3 (levelController.player1Spawn.x, levelController.player1Spawn.y - height / 2), "Player 1 spawn");
+
+		// draw player spawn handle
+		EditorGUI.BeginChangeCheck ();
+
+		Quaternion rotation = Quaternion.identity;
+		Vector3 position = Handles.PositionHandle (new Vector3 (levelController.player1Spawn.x, levelController.player1Spawn.y, 0), rotation);
+
+		// snap check
+		if (snap)
+		{   //round(X / N)*N
+			position.x = (float)System.Math.Round (position.x / snapTo) * snapTo;
+			position.y = (float)System.Math.Round (position.y / snapTo) * snapTo;
+		}
+
+		if (EditorGUI.EndChangeCheck ())
+		{
+			Undo.RecordObject (levelController, "Moved Player1 spawn");
+			levelController.player1Spawn.x = position.x;
+			levelController.player1Spawn.y = position.y;
+		}
+
+		// draw camera
 		var left = Camera.main.ViewportToWorldPoint (Vector3.zero).x;
 		var right = Camera.main.ViewportToWorldPoint (Vector3.one).x;
 		var top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
