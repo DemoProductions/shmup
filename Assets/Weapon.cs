@@ -38,4 +38,15 @@ public class Weapon : MonoBehaviour
 
 		return false;
 	}
+
+	public bool SwitchProjectile (int projectileType)
+	{
+		if (projectileType >= 0 && projectileType < projectiles.Length)
+		{
+			this.projectileType = projectileType;
+			return true;
+		}
+
+		return false;
+	}
 }

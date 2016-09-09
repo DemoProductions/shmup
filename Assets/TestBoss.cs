@@ -6,7 +6,6 @@ public class TestBoss : MonoBehaviour
 
 	Health health;
 	public Weapon weapon;
-	Rigidbody2D rbody;
 	TestBossAI testBossAI;
 	SpriteRenderer spriterenderer;
 
@@ -23,8 +22,6 @@ public class TestBoss : MonoBehaviour
 			weapon.transform.SetParent (this.transform);
 			weapon.enabled = false;
 		}
-
-		rbody = this.GetComponent<Rigidbody2D> ();
 
 		testBossAI = this.GetComponent<TestBossAI> ();
 		testBossAI.enabled = false;
