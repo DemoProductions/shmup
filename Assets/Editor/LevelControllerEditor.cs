@@ -18,6 +18,7 @@ public class LevelControllerEditor : Editor
 	static string middlegroundsFolder = JoinPaths (resourceFolder, LevelController.middlegroundsFolder);
 	static string foregroundsFolder = JoinPaths (resourceFolder, LevelController.foregroundsFolder);
 	static string playersFolder = JoinPaths (resourceFolder, LevelController.playersFolder);
+	static string bossesFolder = JoinPaths (resourceFolder, LevelController.bossesFolder);
 	static string wavesFolder = JoinPaths (resourceFolder, LevelController.wavesFolder);
 
 	static List<bool> levelFoldBools;
@@ -43,6 +44,7 @@ public class LevelControllerEditor : Editor
 		string[] middlegrounds = GetPrefabs (middlegroundsFolder);
 		string[] foregrounds = GetPrefabs (foregroundsFolder);
 		string[] players = GetPrefabs (playersFolder);
+		string[] bosses = GetPrefabs (bossesFolder);
 		string[] waves = GetPrefabs (wavesFolder);
 
 		serializedObject.Update ();
@@ -115,6 +117,9 @@ public class LevelControllerEditor : Editor
 						}
 					}
 					EditorGUI.indentLevel -= 1;
+
+					// bosses
+					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("boss"), bosses, "Boss");
 				}
 			}
 			EditorGUI.indentLevel -= 1;

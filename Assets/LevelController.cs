@@ -14,7 +14,7 @@ public class LevelController : MonoBehaviour
 		public int numWaves;
 		public int maxTimesAWaveCanInstantiate;
 		public string[] waves;
-		//public int boss; // for later
+		public string boss;
 	}
 
 	public float waveSeparation = 10;
@@ -30,6 +30,7 @@ public class LevelController : MonoBehaviour
 	public static string middlegroundsFolder = "Middlegrounds";
 	public static string foregroundsFolder = "Foregrounds";
 	public static string playersFolder = "Players";
+	public static string bossesFolder = "Bosses";
 	public static string wavesFolder = "Waves";
 
 	// Use this for initialization
