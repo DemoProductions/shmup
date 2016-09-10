@@ -18,7 +18,8 @@ public class Wave : MonoBehaviour
 	{
 		foreach (Spawnable spawnable in spawnables)
 		{
-			Instantiate (spawnable.gameObject, new Vector3 (spawnable.position.x + this.transform.position.x, spawnable.position.y), Quaternion.identity * Quaternion.Euler (0, 180, 0));
+			GameObject instantiatedSpawnable = Instantiate (spawnable.gameObject, new Vector3 (spawnable.position.x + this.transform.position.x, spawnable.position.y), Quaternion.identity * Quaternion.Euler (0, 180, 0)) as GameObject;
+			instantiatedSpawnable.transform.SetParent(transform);
 		}
 	}
 }
