@@ -14,12 +14,13 @@ public class Enemy : MonoBehaviour
 	BoundingsTimeout2D boundingstimeout;
 	SpriteRenderer spriterenderer;
 
-	bool spawned = false;
+	public bool spawned = false;
 
 	// Use this for initialization
 	void Start ()
 	{
 		health = gameObject.GetComponent<Health> ();
+		health.enabled = false;
 
 		if (weapon)
 		{
@@ -52,6 +53,7 @@ public class Enemy : MonoBehaviour
 
 	void Spawn ()
 	{
+		health.enabled = true;
 		movement.enabled = true;
 		boundingstimeout.enabled = true;
 		weapon.enabled = true;
