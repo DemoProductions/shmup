@@ -69,6 +69,17 @@ public class HealthBar : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		UpdateHealthNodes ();
+	}
+
+	void OnDestroy ()
+	{
+		// make sure that health is represented correctly in the healthbar when gameobject is destroyed
+		UpdateHealthNodes ();
+	}
+
+	void UpdateHealthNodes ()
+	{
 		Health health = GetComponent<Health> ();
 
 		if (healthNodeImageFullPrefab && healthNodeImageEmptyPrefab)
