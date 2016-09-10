@@ -75,9 +75,9 @@ public class LevelController : MonoBehaviour
 			instantiatedPlayer1.transform.SetParent (instantiatedForeground.transform);
 
 			// instantiate boss
-			//GameObject bossGameObject = Resources.Load (JoinPaths (bossesFolder, level.boss)) as GameObject;
-			//GameObject instantiatedBoss = Instantiate (bossGameObject, new Vector3 (1, 0, 0) * 2 + new Vector3 (waveSeparation * level.numWaves - 1, 0), Quaternion.identity) as GameObject;
-			//instantiatedBoss.transform.SetParent (instantiatedForeground.transform);
+			GameObject bossGameObject = Resources.Load (JoinPaths (bossesFolder, level.boss)) as GameObject;
+			GameObject instantiatedBoss = Instantiate (bossGameObject, new Vector3 (1, 0, 0) * 2 + new Vector3 (waveSeparation * (level.numWaves + 1), 0), Quaternion.identity) as GameObject;
+			instantiatedBoss.transform.SetParent (instantiatedForeground.transform);
 
 			// instantiate waves randomly
 			if (level.numWaves / level.maxTimesAWaveCanInstantiate > level.waves.Length)
