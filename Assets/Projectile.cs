@@ -33,7 +33,7 @@ public class Projectile : MonoBehaviour
 		Team otherTeam = other.GetComponent<Team> ();
 
 		// check whether the colliding object can be damaged and can not harm objects that are on the same team
-		if (health && team && this.team.IsEnemy (otherTeam))
+		if (health && health.enabled && team && this.team.IsEnemy (otherTeam))
 		{
 			health.Damage (damage);
 			Destroy (this.gameObject);

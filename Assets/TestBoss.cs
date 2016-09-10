@@ -15,6 +15,7 @@ public class TestBoss : MonoBehaviour
 	void Start ()
 	{
 		health = gameObject.GetComponent<Health> ();
+		health.enabled = false;
 
 		if (weapon)
 		{
@@ -40,6 +41,7 @@ public class TestBoss : MonoBehaviour
 
 	void Spawn ()
 	{
+		health.enabled = true;
 		testBossAI.enabled = true;
 		weapon.enabled = true;
 	}
