@@ -56,6 +56,6 @@ public class Enemy : MonoBehaviour
 		health.enabled = true;
 		movement.enabled = true;
 		boundingstimeout.enabled = true;
-		weapon.enabled = true;
+		if (weapon) weapon.enabled = true;
 	}
 }
