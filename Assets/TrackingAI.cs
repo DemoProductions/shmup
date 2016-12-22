@@ -67,7 +67,7 @@ public class TrackingAI : MonoBehaviour
 					Team team = target.GetComponent<Team> ();
 					return team && team.IsEnemy (this.team);
 				}).ToList ();
-			break;
+				break;
 			case (int)targetTypes.both:
 				// do nothing, already have both
 				break;
