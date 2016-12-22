@@ -97,7 +97,8 @@ public class TrackingAI : MonoBehaviour
 		// when target is null, don't apply AI (continue flying in a straight line)
 		if (target != null)
 		{
-			int sign = Vector3.Cross (target.transform.position - this.transform.position, Vector2.right).z < 0 ? 1 : -1;
+			int sign = Vector3.Cross (target.transform.position - this.transform.position, this.transform.right).z < 0 ? 1 : -1;
+			sign *= this.transform.rotation.eulerAngles.y == 180 ? -1 : 1;
 			float angle = Vector3.Angle (target.transform.position - this.transform.position, this.transform.right);
 			float rate = degreesPerSecond * Time.deltaTime;
 
