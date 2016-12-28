@@ -31,6 +31,9 @@ public class TrackingAI : MonoBehaviour
 		{
 			targets = Object.FindObjectsOfType<Team> ().Select (team => team.gameObject).ToList ();
 		}
+
+		this.team = GetComponent<Team> ();
+
 		UpdateTarget ();
 	}
 
@@ -94,8 +97,9 @@ public class TrackingAI : MonoBehaviour
 		// when target is null, don't apply AI (continue flying in a straight line)
 		if (target != null)
 		{
-			int sign = Vector3.Cross (target.transform.position - this.transform.position, this.transform.up).z < 0 ? 1 : -1;
-			float angle = Vector3.Angle (target.transform.position - this.transform.position, this.transform.up);
+			int sign = Vector3.Cross (target.transform.position - this.transform.position, this.transform.right).z < 0 ? 1 : -1;
+			sign *= this.transform.rotation.eulerAngles.y == 180 ? -1 : 1;
+			float angle = Vector3.Angle (target.transform.position - this.transform.position, this.transform.right);
 			float rate = degreesPerSecond * Time.deltaTime;
 
 			// if remaining angle is less than turn rate, use remaining angle (won't overshoot)
@@ -115,7 +119,7 @@ public class TrackingAI : MonoBehaviour
 
 			// draw ray in facing direction
 			Gizmos.color = Color.red;
-			Gizmos.DrawRay (this.transform.position, this.transform.up);
+			Gizmos.DrawRay (this.transform.position, this.transform.right);
 		}
 
 		// draw tracking radius

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class TestBoss : MonoBehaviour
 {
+	static Transform foreground = null;
 
 	Health health;
 	public Weapon weapon;
@@ -14,6 +15,8 @@ public class TestBoss : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		if (!foreground) foreground = GameObject.FindGameObjectWithTag ("foreground").transform;
+
 		health = gameObject.GetComponent<Health> ();
 		health.enabled = false;
 
@@ -43,6 +46,7 @@ public class TestBoss : MonoBehaviour
 	{
 		health.enabled = true;
 		testBossAI.enabled = true;
-		weapon.enabled = true;
+		transform.parent = foreground;
+		if (weapon) weapon.enabled = true;
 	}
 }

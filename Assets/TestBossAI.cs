@@ -7,17 +7,24 @@ public class TestBossAI : MonoBehaviour
 	int[] states = new int [3];
 	public int currentState = 0;
 
+	TestBoss testBoss;
 	Rigidbody2D rbody;
 	Timer timer;
+
+	int rotation;
+	public int step;
 
 	// Use this for initialization
 	void Start ()
 	{
+		testBoss = GetComponent<TestBoss> ();
 		timer = GetComponent<Timer> ();
 		rbody = GetComponent<Rigidbody2D> ();
-		GetComponent<TestBoss> ().weapon.refireRate = 0.01f;
-		SwitchToRandomState ();
+//		SwitchToRandomState ();
+		currentState = 0;
 		timer.Begin ();
+		rotation = 0;
+		step = 0;
 	}
 	
 	// Update is called once per frame
@@ -27,38 +34,135 @@ public class TestBossAI : MonoBehaviour
 		float x = 0f;
 		float y = 0f;
 
+		// stable, shoots bullets/missiles/bullets
 		if (currentState == 0)
 		{
-			if (timer.time >= 0f && timer.time < 3f)
-			{
-				y = 1f;
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
+//			if (timer.time >= 0f && timer.time < 3f)
+//			{
+//				y = 1f;
+//				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
+//				GetComponent<TestBoss> ().weapon.Shoot ();
+//			}
+//			else if (timer.time >= 3f && timer.time < 5f)
+//			{
+//				y = 0f;
+//				GetComponent<TestBoss> ().weapon.SwitchProjectile (1);
+//				GetComponent<TestBoss> ().weapon.Shoot ();
+//			}
+//			else if (timer.time >= 5f && timer.time < 8f)
+//			{
+//				y = -1f;
+//				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
+//				GetComponent<TestBoss> ().weapon.Shoot ();
+//			}
+//			else if (timer.time >= 8f && timer.time < 10f)
+//			{
+//				y = 0f;
+//			}
+//
+//			if (timer.time >= 10f)
+//			{
+//				timer.Reset ();
+//				timer.Begin ();
+//				SwitchToRandomState ();
+//			}
+			// move to top of screen
+			Vector2 topRight = Camera.main.ScreenToWorldPoint(new Vector2(Camera.main.pixelWidth - 20, Camera.main.pixelHeight - 20));
+			Vector2 bottomRight = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 20, 20));
+			if (step == 0) {
+				if (rbody.position != topRight) {
+					rbody.position = Vector2.MoveTowards (rbody.position, topRight, 20 * Time.deltaTime);
+				} else {
+					step++;
+				}
 			}
-			else if (timer.time >= 3f && timer.time < 5f)
-			{
-				y = 0f;
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (1);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 5f && timer.time < 8f)
-			{
-				y = -1f;
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 8f && timer.time < 10f)
-			{
-				y = 0f;
+				
+			// pause
+			if (step == 1) {
+				timer.Reset ().Begin ();
+				step++;
 			}
 
-			if (timer.time >= 10f)
-			{
-				timer.Reset ();
-				timer.Begin ();
-				SwitchToRandomState ();
+			// shoot and move down
+			if (step == 2) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else if (rbody.position != bottomRight) {
+					testBoss.weapon.Shoot ();
+					rbody.position = Vector2.MoveTowards (rbody.position, bottomRight, 20 * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
 			}
+
+			// pause
+			if (step == 3) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// missiles
+			if (step == 4) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else if (timer >= 2f && timer < 3f) {
+					testBoss.weapon.SwitchProjectile (1);
+					testBoss.weapon.Shoot ();
+				}
+				else {
+					testBoss.weapon.SwitchProjectile (0);
+					step++;
+				}
+			}
+
+			// pause
+			if (step == 5) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// shoot and move up
+			if (step == 6) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else if (rbody.position != topRight) {
+					testBoss.weapon.Shoot ();
+					rbody.position = Vector2.MoveTowards (rbody.position, topRight, 20 * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
+			}
+
+			// pause
+			if (step == 7) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// next state
+			if (step == 8) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else {
+					step = 0;
+					timer.Reset ().Begin ();
+					SwitchToRandomState ();
+				}
+			}
+			return;
 		}
+
+		// slight move, spin, slight move, spin, slight move, spin
 		else if (currentState == 1)
 		{
 			if (timer.time >= 0f && timer.time < 2f)
@@ -101,6 +205,8 @@ public class TestBossAI : MonoBehaviour
 				SwitchToRandomState ();
 			}
 		}
+
+		// slight rotations while shooting
 		else if (currentState == 2)
 		{
 			if (timer.time >= 0f && timer.time < 0.5f)

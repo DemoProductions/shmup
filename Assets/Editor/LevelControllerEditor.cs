@@ -203,5 +203,20 @@ public class LevelControllerEditor : Editor
 			};
 			Handles.DrawSolidRectangleWithOutline (waveVerts, Color.clear, Color.magenta);
 		}
+
+		// draw boss wave / frame
+		// camera square
+		left = Camera.main.ViewportToWorldPoint (Vector3.one).x + (levelController.waveSeparation * 3);
+		right = Camera.main.ViewportToWorldPoint (Vector3.one * 2).x + (levelController.waveSeparation * 3);
+		top = Camera.main.ViewportToWorldPoint (Vector3.zero).y;
+		bottom = Camera.main.ViewportToWorldPoint (Vector3.one).y;
+
+		Vector3[] bossWaveVerts = {
+			new Vector3 (left, top, 0),
+			new Vector3 (right, top, 0),
+			new Vector3 (right, bottom, 0),
+			new Vector3 (left, bottom, 0)
+		};
+		Handles.DrawSolidRectangleWithOutline (bossWaveVerts, Color.clear, Color.red);
 	}
 }

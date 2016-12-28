@@ -7,6 +7,8 @@
 [RequireComponent (typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour
 {
+	static Transform foreground = null;
+
 	Health health;
 	public Weapon weapon;
 	Rigidbody2D rbody;
@@ -19,6 +21,8 @@ public class Enemy : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		if (!foreground) foreground = GameObject.FindGameObjectWithTag ("foreground").transform;
+
 		health = gameObject.GetComponent<Health> ();
 		health.enabled = false;
 
@@ -56,6 +60,7 @@ public class Enemy : MonoBehaviour
 		health.enabled = true;
 		movement.enabled = true;
 		boundingstimeout.enabled = true;
+		transform.parent = foreground;
 		if (weapon) weapon.enabled = true;
 	}
 }

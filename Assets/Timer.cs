@@ -22,18 +22,37 @@ public class Timer : MonoBehaviour
 		}
 	}
 
-	public void Begin ()
+	public Timer Begin ()
 	{
 		running = true;
+		return this;
 	}
 
-	public void Stop ()
+	public Timer Stop ()
 	{
 		running = false;
+		return this;
 	}
 
-	public void Reset ()
+	public Timer Reset ()
 	{
 		time = 0;
+		return this;
+	}
+
+	public static bool operator >(Timer t1, float t2) {
+		return t1.time > t2;
+	}
+
+	public static bool operator >=(Timer t1, float t2) {
+		return t1.time >= t2;
+	}
+
+	public static bool operator <(Timer t1, float t2) {
+		return t1.time < t2;
+	}
+
+	public static bool operator <=(Timer t1, float t2) {
+		return t1.time <= t2;
 	}
 }

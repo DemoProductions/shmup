@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 	public GameObject[] projectiles;
 	public int projectileType = 0;
 	public float refireTime;
-	public float refireRate = 0.1f;
+	public float refireRate;
 	public float xvelocity;
 	public float yvelocity;
 
