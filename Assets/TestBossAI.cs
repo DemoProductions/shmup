@@ -13,6 +13,7 @@ public class TestBossAI : MonoBehaviour
 
 	int rotation;
 	public int step;
+	int speed;
 
 	// Use this for initialization
 	void Start ()
@@ -20,63 +21,31 @@ public class TestBossAI : MonoBehaviour
 		testBoss = GetComponent<TestBoss> ();
 		timer = GetComponent<Timer> ();
 		rbody = GetComponent<Rigidbody2D> ();
-//		SwitchToRandomState ();
-		currentState = 0;
+		SwitchToRandomState ();
 		timer.Begin ();
 		rotation = 0;
 		step = 0;
+		speed = 20; // should this inherit from TestBoss.cs? MoveTo feels faster than our other speeds, not sure why.
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		int speed = 100;
-		float x = 0f;
-		float y = 0f;
-
 		// stable, shoots bullets/missiles/bullets
-		if (currentState == 0)
-		{
-//			if (timer.time >= 0f && timer.time < 3f)
-//			{
-//				y = 1f;
-//				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-//				GetComponent<TestBoss> ().weapon.Shoot ();
-//			}
-//			else if (timer.time >= 3f && timer.time < 5f)
-//			{
-//				y = 0f;
-//				GetComponent<TestBoss> ().weapon.SwitchProjectile (1);
-//				GetComponent<TestBoss> ().weapon.Shoot ();
-//			}
-//			else if (timer.time >= 5f && timer.time < 8f)
-//			{
-//				y = -1f;
-//				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-//				GetComponent<TestBoss> ().weapon.Shoot ();
-//			}
-//			else if (timer.time >= 8f && timer.time < 10f)
-//			{
-//				y = 0f;
-//			}
-//
-//			if (timer.time >= 10f)
-//			{
-//				timer.Reset ();
-//				timer.Begin ();
-//				SwitchToRandomState ();
-//			}
-			// move to top of screen
-			Vector2 topRight = Camera.main.ScreenToWorldPoint(new Vector2(Camera.main.pixelWidth - 20, Camera.main.pixelHeight - 20));
+		if (currentState == 0) {
+			Vector2 topRight = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 20, Camera.main.pixelHeight - 20));
 			Vector2 bottomRight = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 20, 20));
+
+			// move to top of screen
 			if (step == 0) {
 				if (rbody.position != topRight) {
-					rbody.position = Vector2.MoveTowards (rbody.position, topRight, 20 * Time.deltaTime);
-				} else {
+					rbody.position = Vector2.MoveTowards (rbody.position, topRight, this.speed * Time.deltaTime);
+				}
+				else {
 					step++;
 				}
 			}
-				
+
 			// pause
 			if (step == 1) {
 				timer.Reset ().Begin ();
@@ -91,7 +60,7 @@ public class TestBossAI : MonoBehaviour
 				}
 				else if (rbody.position != bottomRight) {
 					testBoss.weapon.Shoot ();
-					rbody.position = Vector2.MoveTowards (rbody.position, bottomRight, 20 * Time.deltaTime);
+					rbody.position = Vector2.MoveTowards (rbody.position, bottomRight, this.speed * Time.deltaTime);
 				}
 				else {
 					step++;
@@ -134,7 +103,7 @@ public class TestBossAI : MonoBehaviour
 				}
 				else if (rbody.position != topRight) {
 					testBoss.weapon.Shoot ();
-					rbody.position = Vector2.MoveTowards (rbody.position, topRight, 20 * Time.deltaTime);
+					rbody.position = Vector2.MoveTowards (rbody.position, topRight, this.speed * Time.deltaTime);
 				}
 				else {
 					step++;
@@ -162,113 +131,334 @@ public class TestBossAI : MonoBehaviour
 			return;
 		}
 
-		// slight move, spin, slight move, spin, slight move, spin
-		else if (currentState == 1)
-		{
-			if (timer.time >= 0f && timer.time < 2f)
-			{
-				x = -1;
-				y = -1;
-			}
-			else if (timer.time >= 2f && timer.time < 6f)
-			{
-				transform.Rotate(new Vector3 (0, 0, 5));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 6f && timer.time < 10f)
-			{
-				x = 1;
-			}
-			else if (timer.time >= 10f && timer.time < 14f)
-			{
-				transform.Rotate(new Vector3 (0, 0, 5));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 14f && timer.time < 16f)
-			{
-				x = -1;
-				y = 1;
-			}
-			else if (timer.time >= 16f && timer.time < 20f)
-			{
-				transform.Rotate(new Vector3 (0, 0, 5));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
+		// slight move (uppper right), spin, slight move (center), spin, slight move (lower right), spin
+		else if (currentState == 1) {
+			Vector2 topRight = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 60, Camera.main.pixelHeight - 60));
+			Vector2 bottomRight = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 60, 60));
+			Vector2 center = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2));
+
+			// move to upper right
+			if (step == 0) {
+				if (rbody.position != topRight) {
+					rbody.position = Vector2.MoveTowards (rbody.position, topRight, this.speed * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
 			}
 
-			if (timer.time >= 20f)
-			{
-				timer.Reset ();
-				timer.Begin ();
-				SwitchToRandomState ();
+			// pause
+			if (step == 1) {
+				timer.Reset ().Begin ();
+				step++;
 			}
+
+			// spin 360x2
+			if (step == 2) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else if (rotation < 360 * 2) {
+					testBoss.weapon.Shoot ();
+					rotation += 5;
+					transform.Rotate (new Vector3 (0, 0, 5));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+
+			// pause
+			if (step == 3) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// move to center
+			if (step == 4) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else if (rbody.position != center) {
+					rbody.position = Vector2.MoveTowards (rbody.position, center, this.speed * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
+			}
+
+			// pause
+			if (step == 5) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// spin 360x2
+			if (step == 6) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else if (rotation < 360 * 2) {
+					testBoss.weapon.Shoot ();
+					rotation += 5;
+					transform.Rotate (new Vector3 (0, 0, 5));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+
+			// pause
+			if (step == 7) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// move to center
+			if (step == 8) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else if (rbody.position != bottomRight) {
+					rbody.position = Vector2.MoveTowards (rbody.position, bottomRight, this.speed * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
+			}
+
+			// pause
+			if (step == 9) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// spin 360x2
+			if (step == 10) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else if (rotation < 360 * 2) {
+					testBoss.weapon.Shoot ();
+					rotation += 5;
+					transform.Rotate (new Vector3 (0, 0, 5));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+
+			// pause
+			if (step == 11) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// next state
+			if (step == 12) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else {
+					step = 0;
+					timer.Reset ().Begin ();
+					SwitchToRandomState ();
+				}
+			}
+			return;
 		}
 
 		// slight rotations while shooting
-		else if (currentState == 2)
-		{
-			if (timer.time >= 0f && timer.time < 0.5f)
-			{
-				transform.Rotate(new Vector3 (0, 0, 3));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 0.5f && timer.time < 1f)
-			{
-				transform.Rotate(new Vector3 (0, 0, -3));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 1f && timer.time < 3f)
-			{
-				x = 1;
-				y = -1;
-			}
-			else if (timer.time >= 3f && timer.time < 3.5f)
-			{
-				transform.Rotate(new Vector3 (0, 0, 3));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 3.5f && timer.time < 4f)
-			{
-				transform.Rotate(new Vector3 (0, 0, -3));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 4f && timer.time < 6f)
-			{
-				x = 1;
-				y = 1;
-			}
-			else if (timer.time >= 6f && timer.time < 6.5f)
-			{
-				transform.Rotate(new Vector3 (0, 0, 3));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 6.5f && timer.time < 7f)
-			{
-				transform.Rotate(new Vector3 (0, 0, -3));
-				GetComponent<TestBoss> ().weapon.SwitchProjectile (0);
-				GetComponent<TestBoss> ().weapon.Shoot ();
-			}
-			else if (timer.time >= 7f && timer.time < 11f)
-			{
-				x = -1;
+		else if (currentState == 2) {
+			Vector2 centerRight = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 60, Camera.main.pixelHeight / 2));
+			Vector2 topRight = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 60, Camera.main.pixelHeight / 2 + 60));
+			Vector2 bottomRight = Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 60, Camera.main.pixelHeight / 2 - 60));
+
+			// move center right
+			if (step == 0) {
+				if (rbody.position != centerRight) {
+					rbody.position = Vector2.MoveTowards (rbody.position, centerRight, this.speed * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
 			}
 
-			if (timer.time >= 11f)
-			{
-				timer.Reset ();
-				timer.Begin ();
-				SwitchToRandomState ();
+			// pause
+			if (step == 1) {
+				timer.Reset ().Begin ();
+				step++;
 			}
+
+			// wiggle / shoot
+			if (step == 2) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				// 
+				else if (rotation < 15) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, 3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+			if (step == 3) {
+				if (rotation < 30) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, -3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+			if (step == 4) {
+				if (rotation < 15) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, 3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+
+			// move top right
+			if (step == 5) {
+				if (rbody.position != topRight) {
+					rbody.position = Vector2.MoveTowards (rbody.position, topRight, this.speed * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
+			}
+
+			// wiggle / shoot
+			if (step == 6) {
+				if (rotation < 15) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, 3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+			if (step == 7) {
+				if (rotation < 30) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, -3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+			if (step == 8) {
+				if (rotation < 15) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, 3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+
+			// move bottom right
+			if (step == 9) {
+				if (rbody.position != bottomRight) {
+					rbody.position = Vector2.MoveTowards (rbody.position, bottomRight, this.speed * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
+			}
+
+			// wiggle / shoot
+			if (step == 10) {
+				if (rotation < 15) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, 3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+			if (step == 11) {
+				if (rotation < 30) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, -3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+			if (step == 12) {
+				if (rotation < 15) {
+					testBoss.weapon.Shoot ();
+					rotation += 3;
+					transform.Rotate (new Vector3 (0, 0, 3));
+				}
+				else {
+					rotation = 0;
+					step++;
+				}
+			}
+
+			// move center right
+			if (step == 13) {
+				if (rbody.position != centerRight) {
+					rbody.position = Vector2.MoveTowards (rbody.position, centerRight, this.speed * Time.deltaTime);
+				}
+				else {
+					step++;
+				}
+			}
+
+			// pause
+			if (step == 14) {
+				timer.Reset ().Begin ();
+				step++;
+			}
+
+			// next state
+			if (step == 15) {
+				if (timer < 2f) {
+					// wait
+					return;
+				}
+				else {
+					step = 0;
+					timer.Reset ().Begin ();
+					SwitchToRandomState ();
+				}
+			}
+			return;
 		}
-
-		rbody.velocity = new Vector2 (x, y) * Time.deltaTime * speed;
 	}
 
 	// switch to random state. cannot be the same as current state
