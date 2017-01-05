@@ -219,7 +219,7 @@ public class AICommands : MonoBehaviour {
 		}
 	}
 
-	public static class Location {
+	protected static class Location {
 		public static Vector2 TopRight() {
 			return Camera.main.ScreenToWorldPoint (new Vector2 (Camera.main.pixelWidth - 20, Camera.main.pixelHeight - 20));
 		}
