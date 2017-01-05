@@ -98,14 +98,13 @@ public class TrackingAI : MonoBehaviour
 		if (target != null)
 		{
 			int sign = Vector3.Cross (target.transform.position - this.transform.position, this.transform.right).z < 0 ? 1 : -1;
-			sign *= this.transform.rotation.eulerAngles.y == 180 ? -1 : 1;
 			float angle = Vector3.Angle (target.transform.position - this.transform.position, this.transform.right);
 			float rate = degreesPerSecond * Time.deltaTime;
 
 			// if remaining angle is less than turn rate, use remaining angle (won't overshoot)
 			rate = angle < rate ? angle : rate;
 
-			transform.Rotate (Vector3.forward, sign * rate);
+			transform.Rotate (transform.forward, sign * rate);
 		}
 	}
 
