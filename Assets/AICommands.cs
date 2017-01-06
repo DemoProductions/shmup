@@ -63,7 +63,6 @@ public class AICommands : MonoBehaviour {
 	}
 
 	protected bool Shoot() {
-		Debug.Log ("shooting");
 		this.weapon.Shoot ();
 		return true;
 	}
@@ -79,7 +78,6 @@ public class AICommands : MonoBehaviour {
 	protected Func<bool> Wait(float seconds) {
 		return () => {
 			float time = seconds;
-			Debug.Log ("waiting " + time + " seconds");
 			if (timer >= time) return true;
 			else return false;
 		};
@@ -130,7 +128,6 @@ public class AICommands : MonoBehaviour {
 			status = true;
 			int count = 0;
 			foreach (Func<bool> func in funcs) {
-				Debug.Log ("executing step part: " + count++);
 				bool funcStatus = func();
 				status = status && funcStatus;
 			}
@@ -149,7 +146,6 @@ public class AICommands : MonoBehaviour {
 		}
 
 		public bool execute() {
-			Debug.Log ("executing step: " + step);
 			if (!timer.running) timer.Reset ().Begin ();
 
 			if (steps [step].execute ()) {
@@ -194,8 +190,6 @@ public class AICommands : MonoBehaviour {
 			Func<bool> newFunc = () => {
 				float time = seconds;
 				Func<bool> func = originalFunc;
-				Debug.Log ("Executing for " + time + " seconds");
-				Debug.Log (func);
 
 				if (timer < time) {
 					func ();
