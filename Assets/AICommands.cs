@@ -53,7 +53,7 @@ public class AICommands : MonoBehaviour {
 		}
 
 		currentStateNum = r;
-		currentState = new State (states [currentStateNum]);
+		currentState = new State (states [currentStateNum], timer);
 	}
 
 	protected StateBuilder First(Func<bool> func) {
@@ -80,14 +80,8 @@ public class AICommands : MonoBehaviour {
 		return () => {
 			float time = seconds;
 			Debug.Log ("waiting " + time + " seconds");
-			if (!timer.running) {
-				timer.Reset ().Begin ();
-			}
-			else if (timer >= time) {
-				timer.Stop ();
-				return true;
-			}
-			return false;
+			if (timer >= time) return true;
+			else return false;
 		};
 	}
 
@@ -137,7 +131,8 @@ public class AICommands : MonoBehaviour {
 			int count = 0;
 			foreach (Func<bool> func in funcs) {
 				Debug.Log ("executing step part: " + count++);
-				status = status && func();
+				bool funcStatus = func();
+				status = status && funcStatus;
 			}
 			return status;
 		}
@@ -146,14 +141,22 @@ public class AICommands : MonoBehaviour {
 	private class State {
 		int step = 0;
 		List<Step> steps;
+		Timer timer;
 
-		public State(List<Step> steps) {
+		public State(List<Step> steps, Timer timer) {
 			this.steps = steps;
+			this.timer = timer;
 		}
 
 		public bool execute() {
 			Debug.Log ("executing step: " + step);
-			if (steps [step].execute()) step++;
+			if (!timer.running) timer.Reset ().Begin ();
+
+			if (steps [step].execute ()) {
+				timer.Stop ();
+				step++;
+			}
+
 			if (step < steps.Count) return true;
 			else return false;
 		}
@@ -193,17 +196,12 @@ public class AICommands : MonoBehaviour {
 				Func<bool> func = originalFunc;
 				Debug.Log ("Executing for " + time + " seconds");
 				Debug.Log (func);
-				if (!timer.running) {
-					timer.Reset ().Begin ();
-				}
-
-				func ();
 
 				if (timer < time) {
+					func ();
 					return false;
 				}
 				else {
-					timer.Stop ();
 					return true;
 				}
 			};
