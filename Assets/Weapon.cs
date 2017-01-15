@@ -10,6 +10,16 @@ public class Weapon : MonoBehaviour
 	public float xvelocity;
 	public float yvelocity;
 
+	public GameObject CurrentProjectile {
+		get {
+			return projectiles[projectileType];
+		}
+
+		set {
+			projectiles [projectileType] = value;
+		}
+	}
+
 	void Start ()
 	{
 
