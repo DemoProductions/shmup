@@ -8,7 +8,10 @@ public class LevelController : MonoBehaviour
 	public class Level
 	{
 		public string name;
-		public string background;
+		public string background1;
+		public string background2;
+		public string background3;
+		public string background4;
 		public string middleground;
 		public string foreground;
 		public int numWaves;
@@ -50,10 +53,41 @@ public class LevelController : MonoBehaviour
 		Level level = levels [0]; // for now default to first level
 
 		// instantiate background
-		GameObject background = Resources.Load (JoinPaths (backgroundsFolder, level.background)) as GameObject;
-		if (background)
+		GameObject background1 = Resources.Load (JoinPaths (backgroundsFolder, level.background1)) as GameObject;
+		if (background1)
 		{
-			Instantiate (background, Vector3.zero, Quaternion.identity);
+			// aligns sprite with bottom of screen
+			float backgroundHeight = background1.GetComponentInChildren<SpriteRenderer> ().sprite.bounds.size.y / 2;
+			Vector2 position = new Vector2 (0, backgroundHeight - (Camera.main.orthographicSize));
+
+			Instantiate (background1, position, Quaternion.identity);
+		}
+		GameObject background2 = Resources.Load (JoinPaths (backgroundsFolder, level.background2)) as GameObject;
+		if (background2)
+		{
+			// aligns sprite with bottom of screen
+			float backgroundHeight = background2.GetComponentInChildren<SpriteRenderer> ().sprite.bounds.size.y / 2;
+			Vector2 position = new Vector2 (0, backgroundHeight - (Camera.main.orthographicSize));
+
+			Instantiate (background2, position, Quaternion.identity);
+		}
+		GameObject background3 = Resources.Load (JoinPaths (backgroundsFolder, level.background3)) as GameObject;
+		if (background3)
+		{
+			// aligns sprite with bottom of screen
+			float backgroundHeight = background3.GetComponentInChildren<SpriteRenderer> ().sprite.bounds.size.y / 2;
+			Vector2 position = new Vector2 (0, backgroundHeight - (Camera.main.orthographicSize));
+
+			Instantiate (background3, position, Quaternion.identity);
+		}
+		GameObject background4 = Resources.Load (JoinPaths (backgroundsFolder, level.background4)) as GameObject;
+		if (background4)
+		{
+			// aligns sprite with bottom of screen
+			float backgroundHeight = background4.GetComponentInChildren<SpriteRenderer> ().sprite.bounds.size.y / 2;
+			Vector2 position = new Vector2 (0, backgroundHeight - (Camera.main.orthographicSize));
+
+			Instantiate (background4, position, Quaternion.identity);
 		}
 
 		// instantiate middleground
@@ -85,18 +119,16 @@ public class LevelController : MonoBehaviour
 				Debug.Log ("Number of waves and max times a wave can instantiate do not fit with the length of wave types that can be in this level");
 			}
 
-			int[] waveCount = new int [level.numWaves]; // keep track of what r initially lands on to make sure that waves can only be instantiated the maxTimesAWaveCanInstantiate
+			int[] waveCount = new int [level.waves.Length]; // keep track of what r initially lands on to make sure that waves can only be instantiated the maxTimesAWaveCanInstantiate
 			for (int i = 0; i < level.numWaves; i++)
 			{
 				int r = UnityEngine.Random.Range (0, level.waves.Length);
 
 				// if r lands on a wave that has been instantiated the max number of times, increment r until a wave that can be instantiated is found
-				while (waveCount [r] > level.maxTimesAWaveCanInstantiate)
+				while (waveCount [r] >= level.maxTimesAWaveCanInstantiate)
 				{
-					if (r == level.numWaves - 1)
-						r = 0;
-					else
-						r++;
+					r++;
+					if (r == level.waves.Length) r = 0;
 				}
 
 				GameObject wave = Resources.Load (JoinPaths (wavesFolder, level.waves [r])) as GameObject;

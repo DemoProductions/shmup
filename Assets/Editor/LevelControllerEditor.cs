@@ -91,7 +91,10 @@ public class LevelControllerEditor : Editor
 					// define level fields
 					EditorGUILayout.PropertyField (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("name"));
 					// backgrounds
-					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("background"), backgrounds, "Background");
+					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("background1"), backgrounds, "Background 1");
+					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("background2"), backgrounds, "Background 2");
+					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("background3"), backgrounds, "Background 3");
+					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("background4"), backgrounds, "Background 4");
 					// middlegrounds
 					ListOptions (levels.GetArrayElementAtIndex (i).FindPropertyRelative ("middleground"), middlegrounds, "Middleground");
 					// foregrounds
